@@ -1,0 +1,81 @@
+<div *ngIf="!deploymentTypes" class="loading" style="margin: 15% auto"></div>
+
+<form *ngIf="deploymentTypes" (ngSubmit)="submit()" [noValidate]="false" class="eds-form">
+
+  <div class="form-header">
+    <div class="title">Deployment Type</div>
+    <p>To edit, select from the dropdown.</p>
+    <select name="selected" class="btn" [(ngModel)]="selectedDeploymentType">
+      <option [ngValue]="newDeploymentType">{{ newDeploymentType.sizeKey }}</option>
+      <option *ngFor="let deploymentType of deploymentTypes"
+              [ngValue]="deploymentType">{{ deploymentType.sizeKey }}</option>
+    </select>
+  </div>
+
+  <div class="row form-body">
+    <div class="column sm-12 md-12">
+
+      <div class="form-group">
+        <div class="form-group-title">
+          {{ selectedDeploymentType ? selectedDeploymentType.sizeKey : 'New DeploymentType' }}
+        </div>
+
+        <div class="form-element">
+          <label for="enm_deployment_type">
+            enm_deployment_type
+          </label>
+          <input [(ngModel)]="selectedDeploymentType.sizeKey"
+                 [disabled]="(selectedDeploymentType != newDeploymentType)"
+                 type="text" id="enm_deployment_type"
+                 name="enm_deployment_type" placeholder="Placeholder" required>
+        </div>
+
+        <div class="form-element">
+          <label for="project">
+            Display Name
+          </label>
+          <input [(ngModel)]="selectedDeploymentType.displayName"
+                 type="text" id="project" name="project" placeholder="Placeholder" required>
+        </div>
+
+        <div class="form-element">
+          <label for="mappingsForFileSystems">
+            Mapping For File Systems
+          </label>
+          <input [(ngModel)]="selectedDeploymentType.mappingsForFileSystems"
+                 type="text" id="mappingsForFileSystems" name="mappingsForFileSystems" placeholder="Placeholder">
+        </div>
+
+        <div class="form-element">
+          <label for="order">
+            Display Order
+          </label>
+          <input [(ngModel)]="selectedDeploymentType.order"
+                 type="number" id="order" name="order" placeholder="Placeholder" required>
+        </div>
+
+
+        <div class="form-element">
+          <input [(ngModel)]="selectedDeploymentType.visible"
+                 [ngModelOptions]="{standalone: true}"
+                 type="checkbox" id="visible"
+                 name="visible" placeholder="Placeholder"
+                 [checked]="selectedDeploymentType.visible">
+          <label for="visible">
+            Display this Deployment Type as visible to users in the Ready Reckoner Tool?
+          </label>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button type="reset" class="btn">Clear</button>
+    <button type="submit" class="btn primary">Submit</button>
+    <button *ngIf="selectedDeploymentType != newDeploymentType" (click)="delete()"
+            type="button" class="btn warning">Delete</button>
+  </div>
+
+</form>

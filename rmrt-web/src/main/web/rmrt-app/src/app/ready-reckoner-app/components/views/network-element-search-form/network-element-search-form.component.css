@@ -1,0 +1,33 @@
+.add-button {
+  margin-top: 2rem;
+}
+
+
+.header-container > * {
+  display: inline-block;
+}
+
+.header-container > .release-info {
+  margin-left: 10px;
+}
+
+
+
+.loading-message {
+  font-family: Ericsson Hilda;
+}
+
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+}
+
+
+
+
+
+

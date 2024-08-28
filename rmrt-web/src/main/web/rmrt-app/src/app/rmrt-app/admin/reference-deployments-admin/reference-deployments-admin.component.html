@@ -1,0 +1,85 @@
+<div *ngIf="!referenceDeployments" class="loading" style="margin: 15% auto"></div>
+
+<form *ngIf="referenceDeployments" (ngSubmit)="submit()" class="eds-form">
+
+  <div class="form-header">
+    <div class="title">Reference Deployment</div>
+    <p>To edit, select from the dropdown.</p>
+    <select (change)="deploymentChanged()" name="selectedReferenceDeployment" class="btn"
+            [(ngModel)]="selectedReferenceDeployment">
+      <option [ngValue]="newReferenceDeployment">{{ newReferenceDeployment.name }}</option>
+      <option *ngFor="let refDep of referenceDeployments"
+              [ngValue]="refDep">{{ refDep.name }}</option>
+    </select>
+  </div>
+
+  <div class="row form-body">
+    <div class="column sm-12">
+
+      <div class="form-group">
+        <div class="form-group-title">
+          {{ selectedReferenceDeployment.name }}
+        </div>
+        <div *ngIf="selectedReferenceDeployment != newReferenceDeployment">
+          <input type="checkbox" id="cb1" name="copy" [(ngModel)]="copy" required>
+          <label for="cb1">Make a copy?</label>
+        </div>
+
+
+        <div class="form-element">
+          <label for="name">
+            Name
+          </label>
+          <input [(ngModel)]="selectedReferenceDeployment.name" type="text"
+                 id="name" name="name" placeholder="Placeholder"
+                 [disabled]="(selectedReferenceDeployment != newReferenceDeployment)" required>
+        </div>
+        <div *ngIf="copy" class="form-element">
+          <label for="newName">
+            New Name for Copy
+          </label>
+          <input [(ngModel)]="newName" type="text"
+                 id="newName" name="newName" placeholder="Placeholder" required>
+        </div>
+        <div class="form-element">
+          <label for="description">
+            Description
+          </label>
+          <input [(ngModel)]="selectedReferenceDeployment.description"
+                 type="text" id="description" name="description" placeholder="Placeholder" required>
+        </div>
+
+        <div class="form-element">
+          <label for="enm_deployment_type">enm_deployment_type</label>
+          <select id="enm_deployment_type" name="enm_deployment_type" class="btn"
+                  [(ngModel)]="selectedReferenceDeployment.deploymentType"
+                  [compareWith]="compareDeploymentTypes">
+            <option [ngValue]="deploymentType" *ngFor="let deploymentType of deploymentTypes">{{ deploymentType.displayName }}</option>
+          </select>
+        </div>
+
+        <div class="form-element">
+          <div class="row">
+            <div class="column sm-6 md-4" *ngFor="let deploymentLd of deploymentLoadDrivers">
+              <label for="{{deploymentLd.name}}">
+                {{ deploymentLd.name }}
+              </label>
+              <input [(ngModel)]="deploymentLd?.values[selectedReferenceDeployment.name]"
+                     type="number" step="any"
+                     id="{{deploymentLd.name}}" name="{{deploymentLd.name}}" placeholder="Placeholder" required>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button type="reset" class="btn">Clear</button>
+    <button type="submit" class="btn primary">Submit</button>
+    <button *ngIf="selectedReferenceDeployment != newReferenceDeployment" (click)="delete()"
+            type="button" class="btn warning">Delete</button>
+  </div>
+
+</form>

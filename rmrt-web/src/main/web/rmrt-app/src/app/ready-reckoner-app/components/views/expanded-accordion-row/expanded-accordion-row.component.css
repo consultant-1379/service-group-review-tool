@@ -1,0 +1,58 @@
+
+.row-header {
+  width: 155px;
+  height: 17px;
+  font-family: Ericsson Hilda;
+  font-size: 14px;
+  color: #6a6a6a;
+  text-decoration: rgb(106, 106, 106);
+  margin-top: 10px;
+}
+
+
+
+.dashed-hr {
+  border-top: 1px dashed #878787 !important;
+  border-bottom: 0;
+  margin: 0;
+}
+
+
+
+
+.key-dim-name {
+  margin-top:28px;
+  margin-right: 20px;
+  height: 14px;
+  font-family: Ericsson Hilda;
+  font-size: 12px;
+  color: #242424;
+  text-decoration: rgb(36, 36, 36);
+  display: block;
+  float: left;
+}
+
+
+.kpi-container {
+  width: 50%;
+  display: block;
+  float: right;
+  white-space: nowrap;
+  margin-right: 50px;
+  margin-top: 20px;
+}
+
+
+.col1 , .col2{
+  display: inline-block;
+  width: 45%;
+}
+
+.col2 {
+  margin-left: 10%;
+}
+
+
+.results-row {
+  min-height: 70px;
+}

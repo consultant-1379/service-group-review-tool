@@ -1,0 +1,127 @@
+
+<!-- System bar -->
+<header class="sysbar">
+  <div class="items-container">
+    <div class="item">
+      <i class="icon icon-econ"></i>
+      <span class="product">ENM Dimensioning Ready Reckoner</span>
+      <span class="acronym">ENM Dimensioning Ready Reckoner</span>
+    </div>
+  </div>
+  <div class="items-container">
+    <div class="item hover">
+      <a target="_blank" href="https://erilink.ericsson.se/eridoc/erl/objectId/09004cffc9d29511?docno=BDGS-22:001459Uen&action=approved&format=pdf">
+        Need Help
+        <i class="icon icon-help"></i>
+      </a>
+    </div>
+
+    <div class="item notification-log-trigger">
+      <span class="notification-log-number"></span>
+      <i class="icon icon-notification"></i>
+      <i class="icon icon-notification-ring"></i>
+    </div>
+    <div class="item hover settings-trigger">
+      <i class="icon icon-profile"></i>
+      <span *ngIf="user">{{user.name}}</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- System panel -->
+  <aside class="syspanel hidden">
+
+    <!-- System panel: Settings -->
+    <div class="settings">
+      <div class="syspanel-top">
+        <span class="syspanel-title"></span>
+        <i class="syspanel-close icon icon-cross"></i>
+      </div>
+      <div class="row">
+        <div class="column sm-12 container">
+
+          <div class="profile" >
+            <i class="icon icon-profile"></i>
+            <div class="username" *ngIf="user">{{user.name}}</div>
+          </div>
+
+          <div class="content">
+            <div class="title">My settings</div>
+            <div class="item">
+              <div class="left">Switch theme</div>
+              <div class="right">
+                <button class="btn warning" (click)="toggleStyle()">Change Style</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- System panel: Notification log -->
+    <div class="notification-log">
+      <div class="syspanel-top">
+        <span class="syspanel-title">Notifications</span>
+        <i class="syspanel-close icon icon-cross"></i>
+      </div>
+      <div class="notification-log-container">
+        <div class="notification-log-empty">No new notifications.</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Application -->
+  <div class="app" id="app">
+
+    <!-- Application: Bar -->
+    <nav class="appbar">
+      <div class="actions-left">
+        <div class="item">
+          <i class="navigation-toggle closed"></i>
+        </div>
+        <div class="menu-anchor open-menu">Menu</div>
+        <div class="title open-menu">
+          <span class="title-name" *ngIf="contentView == 'form' ">Reference Deployment Calculator</span>
+          <span class="title-name" *ngIf="contentView == 'catalog' ">Network Element Catalog</span>
+          <span class="title-name" *ngIf="contentView == 'results' ">Reference Deployment Sizes</span>
+        </div>
+      </div>
+
+      <div class="actions-right">
+        <div *ngIf="contentView == 'form'">
+          <button class="btn primary" type="button" (click)="triggerFormSubmission()">Calculate Reference Deployment</button>
+          <button class="btn" type="button" (click)="triggerImport()"><i class="icon icon-upload"></i>Import</button>
+        </div>
+
+
+        <div *ngIf="contentView == 'results'">
+          <button class="btn" type="button" (click)="goToInputs()">Back to inputs</button>
+          <button class="btn" type="button" (click)="triggerExport()"><i class="icon icon-download-save"></i>Export</button>
+        </div>
+      </div>
+
+    </nav>
+
+    <div class="appbody">
+
+      <!-- Application: Navigation -->
+      <div class="appnav">
+        <div class="tree navigation">
+          <ul>
+            <li><a [routerLink]="['/readyReckoner/']"><span class="item active">Reference Deployment Calculator</span></a></li>
+            <li><a [routerLink]="['/readyReckoner/catalog']"><span class="item">Network Element Catalog</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Application: Content -->
+      <div class="appcontent" style="background-color: #FAFAFA;">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+
+  </div>
+
+</main>

@@ -1,0 +1,29 @@
+<div id="file-upload-dialog" class="dialog" data-trigger="#open-file-upload" data-type="simple">
+  <div class="content">
+    <div class="top">
+      <div class="title">Test Resource Model</div>
+    </div>
+    <div class="body">
+      <p>
+        Manually upload a resource model file to check it for any errors.
+        This will not submit the file to Gerrit.
+        This is only a tool to aid the developer prior to submitting to Gerrit.
+      </p>
+      <label>
+        <input id="file-input" type="file">
+        <span class="btn">
+          <i class="icon icon-upload"></i>
+          Choose file
+        </span>
+        <span id="validation-loading" style="margin-left: 10px"></span>
+      </label>
+    </div>
+    <div *ngIf="error" class="body">
+      {{ error }}
+    </div>
+    <div class="bottom">
+      <button class="btn ghost" data-close="true">Cancel</button>
+      <button class="btn primary" (click)="submit()">Submit</button>
+    </div>
+  </div>
+</div>

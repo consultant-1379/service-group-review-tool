@@ -1,0 +1,71 @@
+<div *ngIf="!fileSystems" class="loading" style="margin: 15% auto"></div>
+
+<form *ngIf="fileSystems" (ngSubmit)="submit()" [noValidate]="false" class="eds-form">
+
+  <div class="form-header">
+    <div class="title">File System</div>
+    <p>To edit, select from the dropdown.</p>
+    <select name="selected" class="btn" [(ngModel)]="selectedFileSystem">
+      <option [ngValue]="newFileSystem">{{ newFileSystem.physicalMapping + ' // ' + newFileSystem.cloudMapping }}</option>
+      <option *ngFor="let fileSystem of fileSystems"
+              [ngValue]="fileSystem">{{ fileSystem.physicalMapping + ' // ' + fileSystem.cloudMapping }}</option>
+    </select>
+  </div>
+
+  <div class="row form-body">
+    <div class="column sm-12">
+
+      <div class="form-group">
+        <div class="form-group-title">
+          {{ selectedFileSystem.physicalMapping + ' // ' + selectedFileSystem.cloudMapping }}
+        </div>
+
+        <div class="form-element">
+          <label for="physicalName">
+            Physical Mapping Name
+          </label>
+          <select id="physicalName" name="physicalName" class="btn" [(ngModel)]="selectedFileSystem.physicalMapping" required>
+            <option *ngFor="let name of physicalNames" [ngValue]="name">{{ name }}</option>
+          </select>
+        </div>
+
+        <div class="form-element">
+          <label for="cloudName">
+            Cloud Mapping Name
+          </label>
+          <select id="cloudName" name="cloudName" class="btn" [(ngModel)]="selectedFileSystem.cloudMapping" required>
+            <option *ngFor="let name of cloudNames" [ngValue]="name">{{ name }}</option>
+          </select>
+        </div>
+
+        <div class="form-element" *ngFor="let custom of selectedFileSystem.customMappings; let i = index; trackBy:trackByIndex ">
+          <label for="custom-{{i}}">
+            Custom Mapping
+          </label>
+          <input [(ngModel)]="selectedFileSystem.customMappings[i]"
+                 type="text" id="custom-{{i}}" name="custom-{{i}}"
+                 placeholder="Placeholder" required>
+          <button type="button" class="btn" (click)="removeMapping(i)">
+            <i class="icon icon-plus"></i>Remove
+          </button>
+        </div>
+
+        <div class="form-element">
+          <button type="button" class="btn primary" (click)="addNewMapping()">
+            <i class="icon icon-plus"></i>Add New
+          </button>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button type="reset" class="btn">Clear</button>
+    <button type="submit" class="btn primary">Submit</button>
+    <button *ngIf="selectedFileSystem != newFileSystem" (click)="delete()"
+            type="button"  class="btn warning">Delete</button>
+  </div>
+
+</form>

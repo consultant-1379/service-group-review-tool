@@ -1,0 +1,34 @@
+<div *ngIf="!users" class="loading" style="margin: 15% auto"></div>
+
+<form *ngIf="users" class="eds-form">
+
+  <div class="form-header">
+    <div class="title">All Users</div>
+    <p>To add a new user, they must first sign in to the tool using their SIGNUM and Password. They will then appear here as ROLE_USER.</p>
+  </div>
+
+  <div class="form-body">
+    <div *ngFor="let user of users" class="row">
+
+      <div class="column sm-3">
+        <span>{{user.username}}</span>
+      </div>
+      <div class="column sm-3">
+        <span>{{user.name}}</span>
+      </div>
+      <div class="column sm-3">
+        <span>{{user.role}}</span>
+      </div>
+      <div class="column sm-3">
+        <label class="switch">
+          <input [checked]="user.role == 'ROLE_ADMIN'" (change)="submit(user)" type="checkbox">
+          <i class="ball"></i>
+          <span data-enabled="ADMIN" data-disabled="USER"></span>
+        </label>
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

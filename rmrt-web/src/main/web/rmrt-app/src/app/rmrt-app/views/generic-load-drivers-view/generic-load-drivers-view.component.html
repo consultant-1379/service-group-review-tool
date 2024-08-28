@@ -1,0 +1,33 @@
+<div class="row">
+
+  <div class="tile sm-12">
+    <div class="header">
+      <div class="left">
+        <div class="title">All Generic Load Drivers</div>
+        <div class="subtitle"></div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="box">
+        <table class="table compact">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let gen of genericLoadDrivers">
+            <td>{{ gen.name }}</td>
+            <td>{{ gen.value }}</td>
+            <td>{{ gen.description }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- End Row 1 -->

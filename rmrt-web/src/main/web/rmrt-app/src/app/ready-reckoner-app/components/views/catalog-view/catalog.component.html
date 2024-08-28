@@ -1,0 +1,37 @@
+<div *ngIf="supportedNETypes == undefined" class="message-container">
+  <h3 class="loading-message">Loading Resources</h3>
+  <div class="loading medium"></div>
+</div>
+
+
+<div class="catalog-container" *ngIf="supportedNETypes != undefined">
+  <h3 class="catalog-header">Supported Network Element Types</h3>
+  <p class="release-no" *ngIf="lastRelease != undefined">Release {{ lastRelease["rstate"] + " Sprint " + lastRelease["Release"]}} </p>
+
+  <div class="select" id="domain-select" data-type="single">
+    <button class="btn current-options">All Domains</button>
+
+    <div class="options-list">
+      <div class="item active" (click)="onSelectOption('all')">All Domains</div>
+      <div class="item" *ngFor="let domain of domains" (click)="onSelectOption(domain)">{{ domain }}</div>
+    </div>
+  </div>
+
+
+  <table class="table striped">
+    <thead>
+    <tr>
+      <th>Network Element Type</th>
+      <th style="width: 15%;">Release</th>
+      <th style="width: 25%;">Domain</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let networkElement of filter_domains_NE">
+        <td>{{ networkElement["networkElementType"] }}</td>
+        <td>{{ networkElement["release"] }}</td>
+        <td>{{ networkElement["domain"] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

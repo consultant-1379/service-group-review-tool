@@ -1,0 +1,52 @@
+<table id="scaleUnit" class="table compact">
+  <thead>
+  <tr>
+    <th colspan="2">Scale Units</th>
+    <th id="minTitle" colspan="2">Minimum</th>
+    <th id="minTitle-2" class="delta" colspan="2"></th>
+    <th id="optTitle" colspan="2">Optimal</th>
+    <th id="optTitle-2" class="delta" colspan="2"></th>
+    <th></th>
+    <th class="delta"></th>
+  </tr>
+  <tr>
+    <th>Deployment</th>
+    <th>Resource</th>
+    <th>Profile</th>
+    <th class="delta">Old Value &amp; Delta</th>
+    <th>Conversion</th>
+    <th class="delta">Old Value &amp;Delta</th>
+    <th>Profile</th>
+    <th class="delta">Old Value &amp;Delta</th>
+    <th>Conversion</th>
+    <th class="delta">Old Value &amp;Delta</th>
+    <th>Calculated Instances</th>
+    <th class="delta">Old Value &amp; Delta</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td rowspan="5">
+      Formulae
+      <br>Instances calculation:
+      <br> ( Used / Usable ) = <br>((OptimalConversion - MinimumConversion) / <br>( OptimalProfile - MinimumConversion))
+    </td>
+  </tr>
+  <tr app-unit-formula-view id="cpuCores"       [title]="'cpuCores'"        [scaleUnit]="scaleUnit" [scaleUnit_compare]="scaleUnit_compare"></tr>
+  <tr app-unit-formula-view id="memory"         [title]="'memory'"          [scaleUnit]="scaleUnit" [scaleUnit_compare]="scaleUnit_compare"></tr>
+  <tr app-unit-formula-view id="cpuMinutes"     [title]="'cpuMinutes'"      [scaleUnit]="scaleUnit" [scaleUnit_compare]="scaleUnit_compare"></tr>
+  <tr app-unit-formula-view id="peakCpuMinutes" [title]="'peakCpuMinutes'"  [scaleUnit]="scaleUnit" [scaleUnit_compare]="scaleUnit_compare"></tr>
+  </tbody>
+  <ng-container *ngFor="let deploymentType of deploymentTypes">
+    <tbody *ngFor="let refName of deploymentType.referenceDeploymentNames" class="{{deploymentType.sizeKey}}">
+    <tr>
+      <td rowspan="5">{{refName}}<br>{{deploymentType.displayName}}<br>Required Instances: {{scaleUnit.required_instances[refName]}}</td>
+    </tr>
+    <tr app-unit-view title="cpuCores"        [size]="refName" [scaleUnit]="scaleUnit" [scaleUnit_compare]="scaleUnit_compare"></tr>
+    <tr app-unit-view title="memory"          [size]="refName" [scaleUnit]="scaleUnit" [scaleUnit_compare]="scaleUnit_compare"></tr>
+    <tr app-unit-view title="cpuMinutes"      [size]="refName" [scaleUnit]="scaleUnit" [scaleUnit_compare]="scaleUnit_compare"></tr>
+    <tr app-unit-view title="peakCpuMinutes"  [size]="refName" [scaleUnit]="scaleUnit" [scaleUnit_compare]="scaleUnit_compare"></tr>
+    </tbody>
+  </ng-container>
+
+</table>

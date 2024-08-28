@@ -1,0 +1,5 @@
+span.message {
+  white-space: normal !important;
+  max-width: 50vw !important;
+  overflow-wrap: break-word !important;
+}

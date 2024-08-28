@@ -1,0 +1,12 @@
+.d-none {
+  display: none !important;
+}
+
+.delta {
+  border-right: solid grey thin;
+}
+
+
+.accordion li > .content {
+  padding: 0 !important;
+}

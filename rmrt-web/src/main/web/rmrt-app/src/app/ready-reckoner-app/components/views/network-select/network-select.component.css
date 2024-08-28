@@ -1,0 +1,113 @@
+.inline-inputs {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-top: 20px;
+}
+
+
+
+.inline-inputs input {
+  vertical-align: middle;
+}
+
+
+
+.input-label {
+  display: block;
+  margin-bottom: 0;
+  font-size: 12px;
+}
+
+.network-input-container {
+  display: block;
+  width: 15%;
+  margin-right: 16px;
+}
+
+
+.network-input-container > input {
+  width: 100%;
+}
+
+
+.net-type-select-container {
+  width: 400px;
+  margin-right: 16px;
+}
+
+
+.net-type-select-container > * {
+  width: 400px;
+}
+
+.select-ne > * {
+  width: 400px;
+}
+
+.select-ne input {
+  width: 100%;
+}
+
+
+.remove-btn {
+  font-size: 16px;
+  /*display: block;*/
+  /*float: right;*/
+  /*right: 35px;*/
+  /*bottom: 10px;*/
+  margin-left: auto;
+  margin-right: 30px;
+  margin-top: 3px;
+}
+
+
+
+
+.row-splitter {
+  height: 1px;
+  border-bottom: 0;
+  margin-top: 20px;
+  color: #c8c8c8;
+}
+
+
+.form-group-container {
+  position: relative;
+}
+
+
+.error-msg {
+  font-size: 12px !important;
+  margin: 0;
+}
+
+.error-icon {
+  color: #bb0b02;
+}
+
+.error-msg, .error-icon {
+  display: inline-block;
+}
+
+
+.input-error-highlight {
+  border: 1px solid #bb0b02;
+}
+
+
+.net-type-select-container, .network-input-container {
+  margin-bottom: 10px;
+}
+
+
+.options-list > .item {
+  white-space: normal !important;
+}
+
+
+.multi-line-err-msg {
+  font-size: 12px !important;
+}
+
+

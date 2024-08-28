@@ -1,0 +1,84 @@
+<td>{{title}}</td>
+<td *ngIf="scaleUnit.minimumUnit.profile[values][size] !== undefined; else noValuesBlock"
+    class="min-profile">{{formatValue(scaleUnit.minimumUnit.profile[values][size])}}</td>
+<td class="min-profile delta">
+  <ng-container
+    [ngTemplateOutlet]="scaleUnit_compare.minimumUnit.profile[values][size] !== undefined ? deltaValue : noValuesBlockDelta"
+    [ngTemplateOutletContext]="{
+    'old':scaleUnit_compare.minimumUnit.profile[values][size],
+    'new': scaleUnit.minimumUnit.profile[values][size]}">
+  </ng-container>
+</td>
+
+<td *ngIf="scaleUnit.minimumUnit.conversion[values][size] !== undefined; else noValuesBlock"
+    class="min-conversion">{{formatValue(scaleUnit.minimumUnit.conversion[values][size])}}</td>
+<td class="min-conversion delta">
+  <ng-container
+    [ngTemplateOutlet]="scaleUnit_compare.minimumUnit.conversion[values][size] !== undefined ? deltaValue : noValuesBlockDelta"
+    [ngTemplateOutletContext]="{
+    'old':scaleUnit_compare.minimumUnit.conversion[values][size],
+    'new': scaleUnit.minimumUnit.conversion[values][size]}">
+  </ng-container>
+</td>
+
+<td *ngIf="scaleUnit.optimalUnit.profile[values][size] !== undefined; else noValuesBlock"
+    class="opt-profile">{{formatValue(scaleUnit.optimalUnit.profile[values][size])}}</td>
+<td class="opt-profile delta">
+  <ng-container
+    [ngTemplateOutlet]="scaleUnit_compare.optimalUnit.profile[values][size] !== undefined ? deltaValue : noValuesBlockDelta"
+    [ngTemplateOutletContext]="{
+    'old':scaleUnit_compare.optimalUnit.profile[values][size],
+    'new': scaleUnit.optimalUnit.profile[values][size]}">
+  </ng-container>
+</td>
+
+<td *ngIf="scaleUnit.optimalUnit.conversion[values][size] !== undefined; else noValuesBlock"
+    class="opt-conversion">{{formatValue(scaleUnit.optimalUnit.conversion[values][size])}}</td>
+<td class="opt-conversion delta">
+  <ng-container
+    [ngTemplateOutlet]="scaleUnit_compare.optimalUnit.conversion[values][size] !== undefined ? deltaValue : noValuesBlockDelta"
+    [ngTemplateOutletContext]="{
+    'old':scaleUnit_compare.optimalUnit.conversion[values][size],
+    'new': scaleUnit.optimalUnit.conversion[values][size]}">
+  </ng-container>
+</td>
+
+<td *ngIf="scaleUnit[instances][size] !== undefined; else noValuesBlock"
+    class="instances">{{scaleUnit[instances][size]}}</td>
+<td *ngIf="scaleUnit_compare[instances][size] !== undefined; else noValuesBlockDelta" class="instances delta">
+  <ng-container
+    [ngTemplateOutlet]="scaleUnit_compare[instances][size] !== undefined ? deltaValue : noValuesBlockDelta"
+    [ngTemplateOutletContext]="{
+    'old':scaleUnit_compare[instances][size],
+    'new': scaleUnit[instances][size]}">
+  </ng-container>
+</td>
+
+<ng-template #noValuesBlock>
+  <td><span style="font-weight: bold; color: red">Error</span></td>
+</ng-template>
+<ng-template #noValuesBlockDelta>
+  <td class="delta"><span style="font-weight: bold; color: red">Error</span></td>
+</ng-template>
+
+
+<ng-template #deltaValue let-oldValue='old' let-newValue='new'>
+  <!-- ZERO -->
+  <div>
+    <span>{{formatValue(oldValue)}}</span>
+  </div>
+  <!-- Increase in value -->
+  <ng-container *ngIf="delta(oldValue, newValue) > 0">
+    <div class="color-blue">
+      <span class=""><i class="icon icon-arrow-up"></i></span>
+      <span class="">{{delta(oldValue, newValue)}}</span>
+    </div>
+  </ng-container>
+  <!-- Decrease in value -->
+  <ng-container *ngIf="delta(oldValue, newValue) < 0">
+    <div class="color-blue">
+      <span class=""><i class="icon icon-arrow-down"></i></span>
+      <span class="">{{delta(oldValue, newValue)}}</span>
+    </div>
+  </ng-container>
+</ng-template>

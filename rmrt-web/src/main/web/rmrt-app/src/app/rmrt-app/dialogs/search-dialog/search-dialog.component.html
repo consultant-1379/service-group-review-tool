@@ -1,0 +1,306 @@
+<div id="search-dialog" class="dialog fullscreen" data-trigger="#open-search" data-type="fullscreen">
+  <div class="content">
+    <div class="top">
+      <div class="title">Database Search Tool</div>
+      <div class="right">
+        <i class="icon icon-cross" data-close="true"></i>
+      </div>
+    </div>
+    <div class="body">
+      <div style="width: 90vw; height: 90vh;">
+        <div id="search-tabs" class="tabs">
+          <div class="titles">
+            <div class="title selected" tabindex="0">Search by Name</div>
+            <div class="title" tabindex="0">Search by Formula</div>
+          </div>
+
+          <div class="contents">
+            <div class="content selected">
+              <div>
+                <label for="search-name">Name</label>
+                <input style="width: 100%" type="text"
+                       id="search-name"
+                       name="name" placeholder="Search by name.....">
+              </div>
+
+              <div *ngIf="nameResults" class="tile sm-12 md-6 lg-4 xl-3">
+                <div class="header">
+                  <div class="left">
+                    <div class="title">Search Results</div>
+                    <div class="subtitle"></div>
+                  </div>
+                </div>
+
+                <div class="content">
+                  <div class="box">
+
+                    <div id="nameResultsAccordion" class="accordion">
+                      <ul>
+                        <li class="opened" tabindex="0">
+
+                          <div class="title">Properties</div>
+                          <div class="content">
+
+                            <table class="table compact" *ngIf="reposWithProperties(nameResults.repositories).length > 0; else noRowsBlock">
+                              <thead>
+                              <tr>
+                                <th>Repository</th>
+                                <th>Name</th>
+                                <th>Default Value</th>
+                                <th>Description</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <ng-container *ngFor="let repo of reposWithProperties(nameResults.repositories)">
+                                  <tr *ngFor="let prop of named(repo.resourceModel.properties)">
+                                    <td>
+                                      <a [routerLink]="['/view/repository']" [queryParams]="{project: repo.project}"
+                                         target="_blank">{{repo.name}}</a>
+                                    </td>
+                                    <td>{{prop.name}}</td>
+                                    <td>{{prop.defaultValue}}</td>
+                                    <td>{{prop.description}}</td>
+                                  </tr>
+                              </ng-container>
+
+                              </tbody>
+                            </table>
+
+                          </div>
+                        </li>
+                        <li class="opened" tabindex="0">
+
+                          <div class="title">Load Drivers</div>
+                          <div class="content">
+
+                            <table class="table compact" *ngIf="reposWithLoadDrivers(nameResults.repositories).length > 0; else noRowsBlock">
+                              <thead>
+                              <tr>
+                                <th>Repository</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <ng-container *ngFor="let repo of reposWithLoadDrivers(nameResults.repositories)">
+                                  <tr *ngFor="let ld of named(repo.resourceModel.loadDrivers)">
+                                    <td>
+                                      <a [routerLink]="['/view/repository']" [queryParams]="{project: repo.project}"
+                                         target="_blank">{{repo.name}}</a>
+                                    </td>
+                                    <td>{{ld.name}}</td>
+                                    <td>{{ld.description}}</td>
+                                  </tr>
+                              </ng-container>
+
+                              </tbody>
+                            </table>
+
+                          </div>
+                        </li>
+                        <li class="opened" tabindex="0">
+
+                          <div class="title">Load Conversion Formulae</div>
+                          <div class="content">
+
+                            <table class="table compact" *ngIf="reposWithLoadConversionFormulae(nameResults.repositories).length > 0; else noRowsBlock">
+                              <thead>
+                              <tr>
+                                <th>Repository</th>
+                                <th>Dependency Alias</th>
+                                <th>Name</th>
+
+                                <th>Formula</th>
+
+                                <ng-container *ngFor="let deploymentType of deploymentTypes">
+                                  <ng-container *ngFor="let refName of deploymentType.referenceDeploymentNames">
+                                    <th class="{{ deploymentType.sizeKey }}">{{ refName }}</th>
+                                  </ng-container>
+                                </ng-container>
+
+                              </tr>
+                              </thead>
+                              <tbody>
+
+                              <ng-container *ngFor="let repo of reposWithLoadConversionFormulae(nameResults.repositories)">
+                                <ng-container *ngFor="let dep of repo.resourceModel.deploymentDependencies">
+
+                                  <tr *ngFor="let ldc of named(dep.loadConversionFormulae)">
+                                    <td>
+                                      <a [routerLink]="['/view/repository']" [queryParams]="{project: repo.project}"
+                                         target="_blank">{{repo.name}}</a>
+                                    </td>
+                                    <td>{{dep.alias}}</td>
+                                    <td>{{ldc.name}}</td>
+
+                                    <td>
+                                      <div *ngIf="ldc.error">
+                                        <span class="tooltip">
+                                          <span class="pill severity-critical">Error</span>
+                                          <span class="message top">{{ ldc.error}}</span>
+                                        </span>
+                                      </div>
+
+                                      <div *ngIf="ldc.formula">
+                                        <span class="tooltip">
+                                          <span class="pill severity-warning">Formula</span>
+                                          <span class="message top">{{ ldc.formula}}</span>
+                                        </span>
+                                      </div>
+                                    </td>
+
+                                    <ng-container *ngFor="let deploymentType of deploymentTypes">
+                                      <ng-container *ngFor="let refName of deploymentType.referenceDeploymentNames">
+
+                                        <td class="{{ deploymentType.sizeKey }}">
+                                          <span *ngIf="ldc.isFormula ; else nameOrTypeBlock">
+                                            <span *ngIf="ldc.values; else noValuesBlock">
+                                              {{ldc.values[refName]}}
+                                            </span>
+                                          </span>
+                                          <ng-template #nameOrTypeBlock>{{ldc.formula}}</ng-template>
+                                          <ng-template #noValuesBlock><span style="font-weight: bold; color: red">Error</span>
+                                          </ng-template>
+                                        </td>
+
+
+                                      </ng-container>
+                                    </ng-container>
+
+                                    </tr>
+                                  </ng-container>
+                              </ng-container>
+
+                              </tbody>
+                            </table>
+
+                          </div>
+                        </li>
+                        <li class="opened" tabindex="0">
+
+                          <div class="title">Deployment Dependant Load Drivers</div>
+                          <div class="content">
+
+                            <table class="table compact" *ngIf="nameResults.deploymentDependantLoadDrivers.length > 0; else noRowsBlock">
+                              <thead>
+                              <tr>
+                                <th>Deployment Type</th>
+                                <ng-container *ngFor="let deploymentType of deploymentTypes">
+                                  <th class="{{deploymentType.sizeKey}}"
+                                      [attr.colspan]="deploymentType.referenceDeploymentNames.length">{{deploymentType.displayName}}</th>
+                                </ng-container>
+                              </tr>
+                              <tr>
+                                <th>Reference Deployment</th>
+                                <ng-container *ngFor="let deploymentType of deploymentTypes">
+                                  <th *ngFor="let ref of deploymentType.referenceDeploymentNames"
+                                      class="{{ deploymentType.sizeKey }}">{{ ref }}</th>
+                                </ng-container>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr *ngFor="let dep of nameResults.deploymentDependantLoadDrivers">
+                                <td>{{ dep.name }}</td>
+                                <ng-container *ngFor="let deploymentType of deploymentTypes" class="{{ deploymentType.sizeKey }}">
+                                  <td *ngFor="let refName of deploymentType.referenceDeploymentNames">{{ dep.values[refName]}}</td>
+                                </ng-container>
+                              </tr>
+                              </tbody>
+                            </table>
+
+                          </div>
+                        </li>
+                        <li class="opened" tabindex="0">
+
+                          <div class="title">Generic Load Drivers</div>
+                          <div class="content">
+
+                            <table class="table compact" *ngIf="nameResults.genericLoadDrivers.length > 0; else noRowsBlock">
+                              <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                                <th>Description</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr *ngFor="let gen of nameResults.genericLoadDrivers">
+                                <td>{{gen.name}}</td>
+                                <td>{{gen.value}}</td>
+                                <td>{{gen.description}}</td>
+                              </tr>
+                              </tbody>
+                            </table>
+
+                          </div>
+                        </li>
+
+                        <ng-template #noRowsBlock><p>No data present</p></ng-template>
+
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="content">
+              <div>
+                <label for="search-formula">Formula:</label>
+                <input style="width: 100%" type="text"
+                       id="search-formula"
+                       name="name" placeholder="Placeholder">
+              </div>
+
+              <div *ngIf="formulaResults" class="tile sm-12 md-6 lg-4 xl-3">
+                <div class="header">
+                  <div class="left">
+                    <div class="title">Search Results</div>
+                    <div class="subtitle"></div>
+                  </div>
+                </div>
+
+                <div class="content">
+                  <div class="box">
+                    <table class="table compact">
+                      <tbody>
+                      <tr>
+                        <th colspan="10">Repositories</th>
+                      </tr>
+                      <ng-container *ngFor="let repo of formulaResults.repositories">
+                        <ng-container *ngIf="loadConversionFormulaeFormulaCount(repo)">
+                          <tr>
+                            <td [rowSpan]="repositoryFormulaRowCount(repo)">
+                              <a [routerLink]="['/view/repository']" [queryParams]="{project: repo.project}"
+                                 target="_blank">{{repo.name}}</a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td [rowSpan]="loadConversionFormulaeFormulaCount(repo)">LoadConversion<br>Formulae</td>
+                          </tr>
+                          <ng-container *ngFor="let dep of repo.resourceModel.deploymentDependencies">
+                            <tr *ngFor="let ldc of used(dep.loadConversionFormulae)">
+                              <td>{{ldc.name}}</td>
+                              <td>{{ldc.formula}}</td>
+                            </tr>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+
+                      </tbody>
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

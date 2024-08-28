@@ -1,0 +1,14 @@
+#size-selector-pills {
+  text-align: center;
+}
+
+.pill {
+  justify-content: center;
+  min-width: 10%;
+  margin: 0 4px;
+
+}
+
+.header {
+  padding-bottom: 0 !important;
+}

@@ -1,0 +1,98 @@
+<div class="form-group form-group-container" [formGroup]="parentForm">
+  <div class="inline-inputs" formArrayName="networkElementSearchRows">
+
+    <div class="net-type-select-container" [formGroupName]="controlIndex">
+      <div class="select select-ne" [id]="selectId" data-type="input-single">
+        <span class="input-label">Network Element Type</span>
+        <div class="clickable current-options">
+          <input class="network-element-search" type="text" placeholder="Type to find"
+                 formControlName="networkElementType"
+                 [required]="networkElementTypeControl.invalid && formSubmitAttempt"
+                 [ngClass]="{'input-error-highlight': networkElementTypeControl.invalid && formSubmitAttempt}">
+        </div>
+
+        <div *ngIf="!networkElementTypeControl.disabled" class="options-list">
+          <div class="item" *ngFor="let networkElement of networkElements" (click)="onSelect(networkElement)">
+            {{ networkElement["networkElementType"] }}
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="!networkElementTypeControl.valid">
+        <div *ngIf="networkElementTypeControl.hasError('duplicateValue')" class="error-container">
+          <i class="icon icon-triangle-warning error-icon"></i><p class="error-msg">Network element type already selected</p>
+        </div>
+
+        <div *ngIf="networkElementTypeControl.hasError('networkElementNotDefined') && formSubmitAttempt" class="error-container">
+          <i class="icon icon-triangle-warning error-icon"></i><p class="error-msg">Invalid network element type</p>
+        </div>
+
+        <div *ngIf="networkElementTypeControl.hasError('deprecated') && formSubmitAttempt" class="error-container">
+          <i class="icon icon-triangle-warning error-icon"></i><p class="error-msg">Network element type does not exist or has been deprecated</p>
+        </div>
+      </ng-container>
+    </div>
+
+
+
+
+    <!-- Inputs For Network element - in case where outdated inputs are imported row will not have input controls -->
+    <ng-container [formGroupName]="controlIndex" *ngIf="this.selectedNetworkElement && thisRowFormGroup.get('inputs') != null">
+
+      <!--      inputs-->
+      <div class="network-input-container" *ngFor="let input of this.selectedNetworkElement['inputs']" formGroupName="inputs">
+
+        <span class="input-label"> {{ input['inputLabel'] }} </span>
+        <input type="number" class="ne-input-box" min="0"
+               #inputControl
+               [formControlName]="input['inputKey']"
+               [required]="inputControlInvalid(input['inputKey'])" (input)="createOutputRequestObject(input['inputKey'], inputControl.value)">
+
+        <!--  Error message inputs-->
+        <div *ngIf="inputControlInvalid(input['inputKey'])">
+          <i class="icon icon-triangle-warning error-icon"></i><p class="error-msg">Invalid input</p>
+        </div>
+      </div>
+
+
+
+      <!--      input pre populated-->
+      <div class="network-input-container" *ngFor="let input of this.selectedNetworkElement['inputPrePopulated'] | keyvalue" formGroupName="inputPrePopulated">
+        <span class="input-label"> {{ input.key }} </span>
+        <input type="number" class="ne-input-box" min="0"
+               #prePopulatedInput
+               [formControlName]="input.value"
+               [required]="preInputInvalid(input.value)" (input)="changePreInputDefaultValue(input.value, prePopulatedInput.value)">
+
+        <!--  Error message for input pre populated-->
+        <div *ngIf="preInputInvalid(input.value)">
+          <i class="icon icon-triangle-warning error-icon"></i><p class="error-msg">Invalid input</p>
+        </div>
+      </div>
+
+
+
+      <!--      outputs-->
+      <div class="network-input-container" *ngFor="let output of this.selectedNetworkElement['outputs'] | keyvalue" formGroupName="outputs">
+        <span class="input-label"> {{ output.key }} </span>
+        <input disabled type="number" class="ne-input-box" min="0" [formControlName]="output.value" [required]="outputControlInvalid(output.value)">
+
+        <!--  Error message for outputs-->
+        <div *ngIf="outputControlInvalid(output.value)">
+          <i class="icon icon-triangle-warning error-icon"></i><p class="error-msg">Invalid input</p>
+        </div>
+      </div>
+
+
+    </ng-container>
+    <i class="icon icon-trashcan remove-btn" (click)="deleteRow()"></i>
+  </div>
+
+
+  <ng-container *ngIf="thisRowFormGroup.hasError('processingInputsError') && formSubmitAttempt">
+    <i class="icon icon-triangle-warning error-icon"></i><p class="multi-line-err-msg">An error has occurred when importing input data for this row. Data being used may have been modified or is now deprecated.<br> Please remove row and select again.</p>
+  </ng-container>
+
+  <hr class="row-splitter">
+</div>
+

@@ -1,0 +1,31 @@
+<div class="row" style="width: 100%; position: sticky; top: 0; z-index: 10;">
+  <div class="sm-12">
+    <div class="tile">
+      <div class="header">
+        <div class="left">
+          <div class="title">Reference Deployment Sizes</div>
+          <div class="subtitle">Select which sizes to view values for:</div>
+        </div>
+
+        <div class="right">
+          <ng-content select="[zero-deltas-button]"></ng-content>
+          <ng-content select="[gerrit-link-button]"></ng-content>
+          <ng-content select="[validation-button]"></ng-content>
+          <ng-content select="[newLoadDriver-button]"></ng-content>
+        </div>
+
+      </div>
+      <div class="content">
+        <div class="box" style="min-height: unset; padding: 8px">
+          <div id="size-selector-pills">
+            <span *ngFor="let deploymentType of deploymentTypes" class="pill toggle unselected">{{ deploymentType.displayName }}</span>
+          </div>
+
+          <ng-content select="[extra-content]"></ng-content>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

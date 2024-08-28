@@ -1,0 +1,20 @@
+
+span.message {
+  white-space: normal !important;
+  max-width: 50vw !important;
+  overflow-wrap: break-word !important;
+}
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: #c8c8c8;
+  z-index: 1;
+}
+
+.sticky-title-row td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #c8c8c8;
+  z-index: 1;
+  border: 1px solid #878787 !important;
+}

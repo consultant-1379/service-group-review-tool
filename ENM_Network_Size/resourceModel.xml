@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configEntity xmlns="http://www.ericsson.com/oss/itpf/deployment/dst/descriptor">
+    <description>ENM Network Size - Independent Formulae</description>
+    <singleton>true</singleton>
+    <scaleUnit>
+        <loadDrivers>
+            <loadDriver name="numberOfNodes"
+                        description="ENM-NETOTAL-XX total network elements supported ExtraLarge=25000, Large=15500, Medium=5900, Small Openstack/MultiTechnology 1880, Small Transport 5000, Extra Small 293"/>
+            <loadDriver name="numberConcurrentConnectionsToManagedNetwork"
+                        description="KeyDimensioningValue currently capturing the number of nodes supported in a reference deployment, needs to be given a value which equates to the number of nodes"/>
+            <loadDriver name="numberComEcimNodes"
+                        description="ENM-ECIM ENM overall total number of ECIM based network elements supported Very Large ENM(ENM@60k)=15000, Large ENM(ENM@40k)=10500, Medium ENM(ENM@15k)=2500"/>
+            <loadDriver name="msSnmpNumberComEcimNe"
+                        description="Calculated Value for number of COM/ECIM nodes supproted by mssnmpfm"/>
+            <loadDriver name="numberEnodeB"
+                        description="ENM-LTE ENM overall total number of LTE EnodeB network elements supported Very Large ENM(ENM@60k)=150, Large ENM(ENM@40k)=150, Medium ENM(ENM@15k)=150"/>
+            <loadDriver name="NumberWcdmaNe"
+                        description="ENM-WCDMA ENM overall total number of WCDMA network elements supported Very Large ENM(ENM@60k)=150, Large ENM(ENM@40k)=150, Medium ENM(ENM@15k)=150"/>
+            <loadDriver name="numberSdkIntegratedNe"
+                        description="ENM-SDK ENM is capable of managing up to 150 ESA network elements or other non native SNMP based Network Elements integrated as a service using FM-SDK."/>
+            <loadDriver name="numberEsaNe"
+                        description="ENM-SDK-01 ENM is capable of managing up to 150 ESA network elements or other non native SNMP based Network Elements integrated as a service using FM-SDK."/>
+            <loadDriver name="numberMultiStandardRadioNE"
+                        description="ENM-RADIO-02 Extra Large ENM(ENM@60k)ENM is capable of managing up to 7,500 Network Elements with Mixed Mode capability.Large ENM(ENM@40k) 7500. Medium ENM(ENM@15k) 2500, Small ENM 1500"/>
+            <loadDriver name="numberEUtranFreqRelation"
+                        description="ENM-LTE-04 Managed Object EUtranFreqRelation ENM is capable of supporting an average of 4 relations per cell."/>
+            <loadDriver name="numberRetSubUnit"
+                        description="ENM-LTE-05 Managed Object RetSubUnit Volumes ENM is capable of supporting an average of 1.5 RetSubUnit per cell."/>
+            <loadDriver name="numberSectorCarrier"
+                        description="ENM-LTE-06 Managed Object SectorCarrier volumes ENM is capable of supporting an average of 1 SectorCarrier per cell."/>
+            <loadDriver name="numberExternalENodeBFunction"
+                        description="ENM-LTE-07 Managed Object ExternalENodeBFunction volumes ENM is capable of supporting an average of 17 ExternalENodeBFunction per cell."/>
+            <loadDriver name="numberTermPointToENB"
+                        description="ENM-LTE-08 Managed Object TermPointToENB volumes ENM is capable of supporting an average of 1.5 TermPointToENB per cell."/>
+            <loadDriver name="numberExternalEutranCell_FDD_TDD"
+                        description="ENM-LTE-09 ENM is capable of supporting an average of 38 ExternalEutranCellFDD or ExternalEutranCellTDD per cell"/>
+            <loadDriver name="numberEUtranCellRelation"
+                        description="ENM-LTE-10 Managed Object EUtranCellRelation volumes ENM is capable of supporting an average of 61 EUtranCellRelation per"/>
+            <loadDriver name="numberGeranFreqGroupRelation"
+                        description="ENM-LTE-12 Managed Object GeranFreqGroupRelation volumes ENM is capable of supporting an average of 1 GeranFreqGroupRelation per cell."/>
+            <loadDriver name="numberGeranCellRelation"
+                        description="ENM-LTE-13 Managed Object GeranCellRelation volumes ENM is capable of supporting an average of 7.8 GeranCellRelation per cell."/>
+            <loadDriver name="numberGeranFrequency"
+                        description="ENM-LTE-14 Managed Object GeranFrequency volumes ENM is capable of supporting an average of 6.8 GeranFrequency per cell."/>
+            <loadDriver name="numberUtranCellRelation"
+                        description="ENM-LTE-15 Managed Object UtranCellRelation volumes ENM is capable of supporting an average of 34 UtranCellRelation per cell"/>
+            <loadDriver name="numberUtranFreqRelation"
+                        description="ENM-LTE-16 Managed Object UtranFreqRelation volumes ENM is capable of supporting an average of 5 UtranFreqRelation per cell."/>
+        </loadDrivers>
+        <minimumUnit>
+            <profile>
+                <cpuCores>0</cpuCores>
+                <cpuMinutes>0</cpuMinutes>
+                <peakCpuMinutes>0</peakCpuMinutes>
+                <memory>0</memory>
+            </profile>
+            <profileConversionFormulae>
+                <cpuCores>0</cpuCores>
+                <cpuMinutes>0</cpuMinutes>
+                <peakCpuMinutes>0</peakCpuMinutes>
+                <memory>0</memory>
+            </profileConversionFormulae>
+        </minimumUnit>
+        <optimalUnit>
+            <profile>
+                <cpuCores>0</cpuCores>
+                <cpuMinutes>0</cpuMinutes>
+                <peakCpuMinutes>0</peakCpuMinutes>
+                <memory>0</memory>
+            </profile>
+            <profileConversionFormulae>
+                <cpuCores>0</cpuCores>
+                <cpuMinutes>0</cpuMinutes>
+                <peakCpuMinutes>0</peakCpuMinutes>
+                <memory>0</memory>
+            </profileConversionFormulae>
+        </optimalUnit>
+    </scaleUnit>
+    <parameters>
+
+    </parameters>
+    <deploymentDependencies>
+        <deploymentDependency>
+            <groupId>com.ericsson.oss.servicegroupcontainers</groupId>
+            <artifactId>service-group-review-tool</artifactId>
+            <version/>
+            <alias>ENM-Network-Size</alias>
+            <qualifier/>
+            <loadDriverConverters>
+                <loadConversionFormula dependencyLoadDriver="numberComEcimNodes">(msSnmpNumberComEcimNe)</loadConversionFormula>
+                <loadConversionFormula dependencyLoadDriver="NumberWcdmaNe">(numberNodeBRadioNodeNe+numberNodeBBasebandNe+numberPicoWranNe)</loadConversionFormula>
+                <loadConversionFormula dependencyLoadDriver="numberEnodeB">(numberEnodebRadioNode+numberBasebandRadioLteNe+numberPicoLteNe+numberVTFRadioNodeNe)</loadConversionFormula>
+                <loadConversionFormula dependencyLoadDriver="numberSdkIntegratedNe">(numberEsaNe)</loadConversionFormula>
+                <loadConversionFormula dependencyLoadDriver="numberOfNodes">(numberComEcimNodes+totalNumberCppNodes+numberTransportNe+totalNumberTspNodes+numberOfAXENe+numberSBGISNe+numberSdkIntegratedNe)</loadConversionFormula>
+                <loadConversionFormula dependencyLoadDriver="numberConcurrentConnectionsToManagedNetwork">(numberOfNodes)</loadConversionFormula>
+                <loadConversionFormula dependencyLoadDriver="enmSwRstateName">(R1CK_1)</loadConversionFormula>
+            </loadDriverConverters>
+        </deploymentDependency>
+    </deploymentDependencies>
+</configEntity>

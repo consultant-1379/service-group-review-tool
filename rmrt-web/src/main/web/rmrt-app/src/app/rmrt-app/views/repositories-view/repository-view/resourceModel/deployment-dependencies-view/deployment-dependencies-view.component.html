@@ -1,0 +1,106 @@
+<table class="table compact">
+  <thead>
+  <tr>
+    <th colspan="3"></th>
+    <ng-container *ngFor="let deploymentType of deploymentTypes">
+      <ng-container *ngIf="deploymentType.referenceDeploymentNames.length > 0">
+        <th class="{{deploymentType.sizeKey}}" [attr.colspan]="deploymentType.referenceDeploymentNames.length">{{deploymentType.displayName}}</th>
+        <th class="delta {{deploymentType.sizeKey}}" [attr.colspan]="deploymentType.referenceDeploymentNames.length"></th>
+      </ng-container>
+
+    </ng-container>
+  </tr>
+  <tr>
+    <th>Dependency</th>
+    <th>Load Converter Name</th>
+    <th>Formula</th>
+
+    <ng-container *ngFor="let deploymentType of deploymentTypes">
+      <ng-container *ngFor="let refName of deploymentType.referenceDeploymentNames">
+        <th class="{{ deploymentType.sizeKey }}">{{ refName }}</th>
+        <th class="delta {{ deploymentType.sizeKey }}">Old Value &amp; Delta</th>
+      </ng-container>
+    </ng-container>
+
+  </tr>
+  </thead>
+  <tbody *ngFor="let deploymentDependency of sorted(deploymentDependencies)">
+  <tr>
+    <td [attr.rowspan]="deploymentDependency.loadConversionFormulae.length + 1">
+      {{deploymentDependency.alias}}
+      <br>{{deploymentDependency.artifactId}}
+      <br>{{deploymentDependency.groupId}}
+      <br>{{deploymentDependency.version}}
+    </td>
+  </tr>
+  <tr class="sticky-title-row" *ngFor="let ldc of sortedWithZeroDeltaOption(deploymentDependency)">
+    <td>{{ldc.name}}</td>
+    <td>
+      <div *ngIf="ldc.error">
+        <span class="tooltip">
+          <span class="pill severity-critical">Error</span>
+          <span class="message top">{{ ldc.error}}</span>
+        </span>
+      </div>
+
+      <div *ngIf="ldc.formula">
+        <span class="tooltip">
+          <span class="pill severity-warning">Formula</span>
+          <span class="message top">{{ ldc.formula}}</span>
+        </span>
+      </div>
+    </td>
+
+    <ng-container *ngFor="let deploymentType of deploymentTypes">
+      <ng-container *ngFor="let refName of deploymentType.referenceDeploymentNames">
+
+        <td class="{{ deploymentType.sizeKey }}">
+        <span *ngIf="ldc.isFormula ; else nameOrTypeBlock">
+          <span *ngIf="ldc.values; else noValuesBlock">
+            {{formatValue(ldc.values[refName])}}
+          </span>
+        </span>
+          <ng-template #nameOrTypeBlock>{{ldc.formula}}</ng-template>
+          <ng-template #noValuesBlock><span style="font-weight: bold; color: red">Error</span></ng-template>
+        </td>
+
+        <td class="delta {{ deploymentType.sizeKey }}">
+        <span *ngIf="findSameLdc(deploymentDependency, ldc).isFormula; else deltaNameOrTypeBlock">
+          <span>
+            <!-- ZERO -->
+            <div>
+              <span *ngIf="findSameLdc(deploymentDependency, ldc).values; else noValuesBlock">
+                {{formatValue(
+                    findSameLdc(deploymentDependency, ldc).values[refName]
+                  )
+                }}
+              </span>
+            </div>
+            <!-- Increase in value -->
+            <ng-container *ngIf="findSameLdc(deploymentDependency, ldc).values && delta(ldc, findSameLdc(deploymentDependency, ldc), refName) > 0">
+              <div class="color-blue">
+                <span class=""><i class="icon icon-arrow-up"></i></span>
+                <span class="">{{delta(ldc, findSameLdc(deploymentDependency, ldc), refName)}}</span>
+              </div>
+            </ng-container>
+            <!-- Decrease in value -->
+            <ng-container *ngIf="findSameLdc(deploymentDependency, ldc).values && delta(ldc, findSameLdc(deploymentDependency, ldc), refName) < 0">
+              <div class="color-blue">
+                <span class=""><i class="icon icon-arrow-down"></i></span>
+                <span class="">{{delta(ldc, findSameLdc(deploymentDependency, ldc), refName)}}</span>
+              </div>
+            </ng-container>
+
+          </span>
+
+        </span>
+          <ng-template #deltaNameOrTypeBlock>{{findSameLdc(deploymentDependency, ldc).formula}}</ng-template>
+          <ng-template #noValuesBlock><span style="font-weight: bold; color: red">Error</span></ng-template>
+        </td>
+
+      </ng-container>
+    </ng-container>
+
+  </tr>
+  </tbody>
+</table>

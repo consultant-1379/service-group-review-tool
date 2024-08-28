@@ -1,0 +1,41 @@
+<div class="signin">
+  <div class="watermark">
+    <i class="icon icon-econ"></i>
+    <div class="product">Ericsson Design System</div>
+  </div>
+
+  <div class="welcome" *ngIf="success">
+    <div class="message">RMRT Logging in...</div>
+<!--    <div class="username">Lars Magnus</div>-->
+    <div class="loading"></div>
+  </div>
+
+  <div *ngIf="error" class="error ">{{error}}</div>
+  <form *ngIf="!success" id="sign-in-form" method="post">
+
+    <div class="field validate">
+      <input type="text" name="username" id="username" placeholder="Username" tabindex="0" autofocus required>
+      <label for="username">Username</label>
+      <div class="hint"></div>
+    </div>
+
+    <div class="field validate">
+      <input type="password" name="password" id="password" placeholder=" " tabindex="0" required>
+      <label for="password">Password</label>
+      <span class="reveal tooltip">
+        <i class="icon icon-eye"></i>
+        <span class="message bottom-end">Show password</span>
+      </span>
+      <div class="hint"></div>
+    </div>
+
+    <button (click)="$event.preventDefault(); submit()" class="btn big primary">Sign In</button>
+
+  </form>
+
+  <div class="footer">
+    © Ericsson AB 2013-2018 - All Rights Reserved. <br />
+    No part of this software may be reproduced in any form without the written permission of the copyright holder.
+  </div>
+
+</div>

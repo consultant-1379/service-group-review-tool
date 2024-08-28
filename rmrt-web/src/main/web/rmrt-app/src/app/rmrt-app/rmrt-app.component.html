@@ -1,0 +1,151 @@
+
+<!-- System bar -->
+<header class="sysbar">
+  <div class="items-container">
+    <div class="item">
+      <i class="icon icon-econ"></i>
+      <span class="product">RMRT</span>
+      <span class="acronym">RMRT</span>
+    </div>
+  </div>
+  <div class="items-container">
+    <div class="item hover">
+      <a target="_blank" href="https://eteamspace.internal.ericsson.com/display/TEMM/ENM+Characteristics+Tooling+-+Resource+Model+Review+Tool#ENMCharacteristicsToolingResourceModelReviewTool-ToolOverview">
+        Need Help
+        <i class="icon icon-help"></i>
+      </a>
+    </div>
+    <div class="item notification-log-trigger">
+      <span class="notification-log-number"></span>
+      <i class="icon icon-notification"></i>
+      <i class="icon icon-notification-ring"></i>
+    </div>
+    <div class="item hover settings-trigger">
+      <i class="icon icon-profile"></i>
+      <span *ngIf="user">{{user.username}}</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- System panel -->
+  <aside class="syspanel hidden">
+
+    <!-- System panel: Settings -->
+    <div class="settings">
+      <div class="syspanel-top">
+        <span class="syspanel-title"></span>
+        <i class="syspanel-close icon icon-cross"></i>
+      </div>
+      <div class="row">
+        <div class="column sm-12 container">
+
+          <div class="profile" >
+            <i class="icon icon-profile"></i>
+            <div class="username" *ngIf="user">{{user.name}}</div>
+          </div>
+
+          <div class="content">
+            <div class="title">My settings</div>
+            <div class="item">
+              <div class="left">Switch theme</div>
+              <div class="right">
+                <button class="btn warning" (click)="toggleStyle()">Change Style</button>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="user && user.authenticated" class="bottom">
+            <a href="/logout">
+              <button type="button" class="btn big">
+                <i class="icon icon-log-out"></i> Sign out
+              </button>
+            </a>
+          </div>
+          <div *ngIf="user && !user.authenticated" class="bottom">
+            <a [routerLink]="'/view/login'">
+              <button type="button" class="btn big">
+                <i class="icon icon-log-out"></i> Sign In
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System panel: Notification log -->
+    <div class="notification-log">
+      <div class="syspanel-top">
+        <span class="syspanel-title">Notifications</span>
+        <i class="syspanel-close icon icon-cross"></i>
+      </div>
+      <div class="notification-log-container">
+        <div class="notification-log-empty">No new notifications.</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Application -->
+  <div class="app" id="app">
+
+    <!-- Application: Bar -->
+    <nav class="appbar">
+      <div class="actions-left">
+        <div class="item">
+          <i class="navigation-toggle closed"></i>
+        </div>
+        <div class="menu-anchor open-menu">Menu</div>
+        <div class="title open-menu">
+          <span class="title-name">RMRT</span>
+          <span class="subtitle">Resource Model Review Tool</span>
+        </div>
+      </div>
+      <div class="actions-right">
+        <button id="open-search" type="button" class="btn">Search</button>
+      </div>
+    </nav>
+
+    <div class="appbody">
+
+      <!-- Application: Navigation -->
+      <div class="appnav">
+        <div class="tree navigation">
+          <ul>
+            <li [hidden]="user && !user.isAdmin"><a [routerLink]="['/view/admin']">
+              <span  [routerLinkActive]="['active']" class="item">Admin</span>
+            </a></li>
+            <li><a [routerLink]="['/']">
+              <span [routerLinkActive]="['active']"
+                    [routerLinkActiveOptions]="{exact:true}" class="item">Home</span>
+            </a></li>
+            <li><a [routerLink]="['/view/repositories']">
+              <span [routerLinkActive]="['active']" class="item">Repositories</span>
+            </a></li>
+            <li><a [routerLink]="['/view/genericLoadDrivers']">
+              <span [routerLinkActive]="['active']" class="item">Generic Load Drivers</span>
+            </a></li>
+            <li><a [routerLink]="['/view/referenceDeployments']">
+              <span [routerLinkActive]="['active']" class="item">Reference Deployments</span>
+            </a></li>
+            <li><a [routerLink]="['/view/fileSystems']">
+              <span [routerLinkActive]="['active']" class="item">File Systems</span>
+            </a></li>
+            <li><a [routerLink]="['/view/keyDimensioningValues']">
+              <span [routerLinkActive]="['active']" class="item">Key Dimensioning Values</span>
+            </a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Application: Content -->
+      <div class="appcontent">
+
+        <router-outlet></router-outlet>
+
+      </div>
+    </div>
+
+  </div>
+
+  <app-search-dialog></app-search-dialog>
+</main>

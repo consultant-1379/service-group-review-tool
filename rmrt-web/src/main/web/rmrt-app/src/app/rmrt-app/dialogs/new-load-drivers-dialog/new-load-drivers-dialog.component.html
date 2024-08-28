@@ -1,0 +1,108 @@
+<div id="new-load-drivers-dialog"
+     class="dialog fullscreen"
+     data-trigger="#open-new-load-drivers-dialog"
+     data-type="fullscreen">
+  <div class="content">
+    <div class="top">
+      <div class="title">{{newLoadDrivers.length}} New Load Drivers Detected</div>
+      <div class="right">
+        <i class="icon icon-cross" data-close="true"></i>
+      </div>
+    </div>
+    <div class="body">
+      <div style="width: 90vw; height: 90vh;">
+
+        <div id="newLoadDriverAccordion" class="accordion" style="overflow: scroll; max-height: 100%" >
+          <form (ngSubmit)="submit()" [noValidate]="false" class="eds-form">
+
+            <ol>
+              <li class="opened" tabindex="0" *ngFor="let ld of newLoadDrivers">
+
+                <div class="title">{{ld.name}}</div>
+                <div class="content">
+
+
+                  <div class="row form-body">
+                    <div class="column sm-12 md-12">
+                      <div class="form-group">
+
+                        <div class="form-element">
+                          <label for="name-{{ld.name}}">
+                            Name
+                          </label>
+                          <input [(ngModel)]="ld.name" type="text" id="name-{{ld.name}}"
+                                 name="name-{{ld.name}}" placeholder="Placeholder" required disabled>
+                        </div>
+
+                        <div class="form-element">
+                          <label for="description-{{ld.name}}">
+                            Description
+                          </label>
+                          <input [(ngModel)]="ld.description" type="text" id="description-{{ld.name}}"
+                                 name="description-{{ld.name}}" placeholder="Placeholder" required disabled>
+                        </div>
+
+                        <div class="form-element">
+                          <input [(ngModel)]="ld.generic"
+                                 [ngModelOptions]="{standalone: true}"
+                                 type="checkbox" id="type-of-ld-{{ld.name}}"
+                                 name="type-of-ld-{{ld.name}}">
+                          <label for="type-of-ld-{{ld.name}}">
+                            Is this a generic load driver? - (One value for all deployment types)
+                          </label>
+                        </div>
+                      </div>
+
+                      <div *ngIf="!ld.generic" class="form-group">
+
+                        <div class="row">
+                          <div class="column sm-4 md-3" *ngFor="let deploymentType of deploymentTypes">
+
+
+                            <div class="form-group-title">
+                              {{deploymentType.displayName}}
+                            </div>
+
+                            <div *ngFor="let refName of deploymentType.referenceDeploymentNames" class="form-element">
+                              <label for="{{refName}}-{{ld.name}}">
+                                {{ refName }}
+                              </label>
+                              <input [(ngModel)]="ld.values[refName]" type="number" id="{{refName}}-{{ld.name}}"
+                                     name="{{refName}}-{{ld.name}}" placeholder="#" required>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="ld.generic" class="form-group">
+
+                        <div class="form-element">
+                          <label for="value-{{ld.name}}">
+                            Value
+                          </label>
+                          <input [(ngModel)]="ld.value" type="number" id="value-{{ld.name}}"
+                                 name="value-{{ld.name}}" placeholder="#" required>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </li>
+
+            </ol>
+
+            <div class="form-footer" style="padding-top: 10px">
+              <button type="submit" class="btn primary">Submit</button>
+            </div>
+
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,199 @@
+<div *ngIf="!repository" class="loading" style="margin: 15% auto; text-align: center; width: 100%;">
+
+  <div style="font-size: 70%; padding: 10px">
+    Updating Resource Model
+    <br>
+    This can take up to 2 minutes
+  </div>
+</div>
+
+<div *ngIf="repository">
+
+  <app-deployment-size-selector>
+    <a gerrit-link-button target="_blank" [href]="getFileUrl()">
+      <button class="btn">
+        <i class="icon icon-document"></i>
+      </button>
+    </a>
+
+    <button zero-deltas-button [hidden]="noDeltasPresent()" id="zero-deltas" type="button" (click)="changeZeroDeltas()" class="btn">{{showZeroDeltas ? 'Hide' : 'Show'}} Zero Deltas</button>
+    <button validation-button id="open-file-upload" type="button" class="btn">Manual Validation</button>
+    <button newLoadDriver-button [hidden]="getNewLoadDrivers().length === 0" id="open-new-load-drivers-dialog" type="button" class="btn primary">New Load Drivers</button>
+
+    <table extra-content *ngIf="repository.changeRequests.length > 0">
+      <tr>
+        <td>Select ResourceModel:</td>
+        <td>
+          <label>
+            <select class="btn" [(ngModel)]="resourceModel">
+              <option [ngValue]="repository.resourceModel">Master</option>
+              <option *ngFor="let change of repository.changeRequests; let i = index;"
+                      [ngValue]="change.resourceModel"
+                      [selected]="i == 0">
+                {{ change.status }} - {{ change.changeId }} - {{ change.owner}}
+              </option>
+            </select>
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td>Compare Against:</td>
+        <td>
+          <label>
+            <select class="btn" [(ngModel)]="compareModel">
+              <option [ngValue]="repository.resourceModel" [selected]="true">Master</option>
+              <option *ngFor="let change of repository.changeRequests"
+                      [ngValue]="change.resourceModel">
+                {{ change.status }} - {{ change.changeId }} - {{ change.owner}}
+              </option>
+            </select>
+          </label>
+        </td>
+      </tr>
+    </table>
+  </app-deployment-size-selector>
+
+
+  <div id="repository-accordion" class="accordion lines">
+    <ul>
+
+      <li tabindex="0" *ngIf="repository.keyDimensioningValues.length > 0">
+        <div class="title">Key Dimensioning Values</div>
+        <div class="content">
+
+          <div *ngFor="let keyDim of repository.keyDimensioningValues" class="tile sm-12" id="t-basic-kd">
+
+            <!-- Header -->
+            <div class="header">
+              <div class="left">
+                <div class="title">{{keyDim.name}}</div>
+                <div class="subtitle"></div>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+              <div class="box">
+
+                <table class="table">
+                  <tr *ngFor="let deploymentType of deploymentTypes" class="{{deploymentType.sizeKey}}">
+                    <td>{{deploymentType.displayName}}</td>
+                    <td>
+                      <div class="row">
+                        <div class="kpi column sm-3" *ngFor="let ref of deploymentType.referenceDeploymentNames">
+                          <div class="color-gray">{{ref}} usage</div>
+                          <div class="item">
+                            <span class="text-xl">{{totalWithDelta(keyDim, ref)}}</span>
+                            <span class="item text-lg">/ {{getCapacity(keyDim, ref)}}</span>
+                            <span class="text-lg color-gray">units</span>
+                          </div>
+                          <div class="progress-bar thin {{percentWithDelta(keyDim, ref) > 100 ? 'red' : 'blue'}}" style="width: 130px;">
+                            <progress value="{{percentWithDelta(keyDim, ref)}}" min="0" max="100"></progress>
+                            <span>{{percentWithDelta(keyDim, ref)}}%</span>
+                          </div>
+                          <div *ngIf="percentWithDelta(keyDim, ref) > 100">
+                            <i class="icon icon-triangle"></i>
+                            <span class="text-sm">Max usage!</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </li>
+
+      <li tabindex="0" *ngIf="repository.fileSystemMappings.length > 0">
+        <div class="title">File Systems</div>
+        <div class="content">
+
+          <div *ngFor="let fileSys of repository.fileSystemMappings" class="tile sm-12" id="t-basic-fs">
+
+            <!-- Header -->
+            <div class="header">
+              <div class="left">
+                <div class="title">
+
+                  <table>
+                    <tr>
+                      <td>Physical</td>
+                      <td>{{fileSys.physicalMapping}}</td>
+                    </tr>
+                    <tr>
+                      <td>Cloud</td>
+                      <td>{{fileSys.cloudMapping}}</td>
+                    </tr>
+                    <tr>
+                      <td>Custom</td>
+                      <td>{{fileSys.customMappings}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="subtitle"></div>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+              <div class="box">
+
+                <table class="table">
+                  <tr *ngFor="let deploymentType of deploymentTypes" class="{{deploymentType.sizeKey}}">
+                    <td>{{deploymentType.displayName}}</td>
+                    <td>
+                      <div class="row">
+                        <div class="kpi column sm-3" *ngFor="let ref of deploymentType.referenceDeploymentNames">
+                          <div class="color-gray">{{ref}}</div>
+                          <div class="item">
+                            <span class="text-xl">{{totalWithDelta(fileSys, ref)}}</span>
+                            <span class="item text-lg">/ {{getCapacity(fileSys, ref)}}</span>
+                            <span class="text-lg color-gray">MB</span>
+                          </div>
+                          <div class="progress-bar thin {{percentWithDelta(fileSys, ref) > 100 ? 'red' : 'blue'}}" style="width: 130px;">
+                            <progress value="{{percentWithDelta(fileSys, ref)}}" min="0" max="100"></progress>
+                            <span>{{percentWithDelta(fileSys, ref)}}%</span>
+                          </div>
+                          <div *ngIf="percentWithDelta(fileSys, ref) > 100">
+                            <i class="icon icon-triangle"></i>
+                            <span class="text-sm">Disk space is full!</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </li>
+
+      <li class="opened" tabindex="0" *ngIf="resourceModel">
+        <div class="title">Resource Model</div>
+        <div class="content">
+
+          <app-resource-model-view [title]="repository.name" [lastUpdated]="repository.lastUpdated"
+                                   [resourceModel]="resourceModel" [compareModel]="compareModel"
+                                   [deploymentTypes]="deploymentTypes" [showZeroDeltas]="showZeroDeltas"></app-resource-model-view>
+
+        </div>
+      </li>
+
+
+    </ul>
+  </div>
+
+  <app-file-upload-dialog [repository]="repository"></app-file-upload-dialog>
+
+  <app-new-load-drivers-dialog [newLoadDrivers]="getNewLoadDrivers()"></app-new-load-drivers-dialog>
+</div>

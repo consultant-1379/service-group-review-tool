@@ -1,0 +1,16 @@
+<table class="table compact">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Value</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let prop of sorted(parameters)">
+    <td>{{prop.name}}</td>
+    <td>{{prop.description}}</td>
+    <td>{{prop.defaultValue}}</td>
+  </tr>
+  </tbody>
+</table>

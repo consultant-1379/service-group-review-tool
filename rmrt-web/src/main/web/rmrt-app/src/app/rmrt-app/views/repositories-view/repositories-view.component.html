@@ -1,0 +1,58 @@
+<div class="row">
+
+  <div *ngIf="!repositories" class="loading" style="margin: 15% auto"></div>
+
+  <div *ngFor="let repo of repositories" class="tile sm-12 md-6 lg-4 xl-3">
+    <div class="header">
+      <a [routerLink]="['/view/repository']" [queryParams]="{project: repo.project}">
+        <div class="left">
+          <div class="title">{{ repo.name }}</div>
+          <div class="subtitle"><b>Project:</b> {{ repo.project }}</div>
+          <div class="subtitle"><b>FilePath:</b> {{ repo.filePath }}</div>
+        </div>
+      </a>
+      <div class="right">
+        <a target="_blank" href="https://gerrit.ericsson.se/gitweb?a=blob;p={{repo.project}}.git;f={{repo.filePath}};">
+          <button class="btn">
+            <i class="icon icon-document"></i>
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="box">
+        <table *ngIf="repo.resourceModel; else elseBlock" class="table compact">
+
+          <tr *ngIf="repo.mediationComponent" [ngStyle]="{'font-weight': 'bold'}">
+            <td>Mediation Component</td>
+            <td><i class="icon icon-favorite-solid"></i></td>
+          </tr>
+
+          <tr [ngStyle]="{'font-weight': repo.fileSystemMappings.length > 0 ? 'bold' : ''}">
+            <td>File Systems</td>
+            <td>{{repo.fileSystemMappings.length}}</td>
+          </tr>
+
+          <tr [ngStyle]="{'font-weight': repo.keyDimensioningValues.length > 0 ? 'bold' : ''}">
+            <td>Key Dimensioning Values</td>
+            <td>{{repo.keyDimensioningValues.length}}</td>
+          </tr>
+
+          <tr *ngIf="repo.resourceModel.errorMessages.length > 0" [ngStyle]="{'color': repo.resourceModel.errorMessages.length > 0 ? 'red' : ''}">
+            <td><b>Errors</b></td>
+            <td><b>{{repo.resourceModel.errorMessages.length}}</b></td>
+          </tr>
+
+          <tr *ngIf="repo.changeRequests.length > 0" [ngStyle]="{'color': repo.changeRequests.length > 0 ? '#1174e6' : ''}">
+            <td><b>Change Requests</b></td>
+            <td><b>{{repo.changeRequests.length}}</b></td>
+          </tr>
+        </table>
+        <ng-template #elseBlock>No resource model found for this repository.</ng-template>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- End Row 1 -->

@@ -1,0 +1,7 @@
+.subtitle {
+  word-break: break-all;
+}
+
+.box {
+  min-height: unset !important;
+}

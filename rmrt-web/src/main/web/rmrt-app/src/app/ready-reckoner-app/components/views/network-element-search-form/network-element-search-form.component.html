@@ -1,0 +1,65 @@
+
+<!--suppress TypeScriptValidateTypes -->
+<div *ngIf="networkElements == undefined" class="message-container">
+  <h3 class="loading-message">Loading Resources</h3>
+  <div class="loading medium"></div>
+</div>
+
+<app-loading-results-progress *ngIf="resultsPending == true">
+</app-loading-results-progress>
+
+
+
+<form *ngIf="(networkElements != undefined) && (resultsPending != true)" class="eds-form" style="margin-left: 1.5rem" [formGroup]="networkElementSearchForm" (ngSubmit)="onSubmit()">
+  <div class="form-header">
+    <div class="header-container">
+      <div class="title">Required Network Size Input</div>
+      <p class="release-info">Release {{latestRelease["rstate"] + " Sprint " + latestRelease["Release"]}}</p>
+    </div>
+
+    <div style="margin-top: 1rem;">
+      <i class="icon icon-info" style="display: inline"></i>
+      <p style="display: inline; margin-left: 0.5rem;">Start by adding a network element type or importing a file</p>
+    </div>
+  </div>
+
+
+  <div class="form-content">
+
+    <div formArrayName="networkElementSearchRows">
+      <div *ngFor="let row of networkElementSearchRows.controls; let i = index">
+        <app-network-select [parentForm]="networkElementSearchForm"
+                            [controlIndex]="i"
+                            [networkElements]="networkElements"
+                            [selectedNetworkElementString]="networkElementSearchRows.at(i).get('networkElementType').value"
+                            [formSearchRows]="networkElementSearchRows">
+        </app-network-select>
+      </div>
+    </div>
+
+
+    <button class="btn add-button" type="button" (click)="addNetworkElementSearchRow()"><i class="icon icon-plus"></i>Add Network Element Type</button>
+  </div>
+
+
+  <!--footer-->
+  <div class="form-footer">
+    <button id="submit-ne" type="submit" hidden></button>
+
+    <button id="import-btn" type="button" hidden></button>
+    <input type="file" id="file-import-input" style="display: none;" (change)="handleFileInput($event.target.files)" accept=".json" hidden>
+  </div>
+
+</form>
+
+
+<!--<br>-->
+<!--<br>-->
+<!--<p>-->
+<!--  Form Status: {{ networkElementSearchForm.status }}-->
+<!--</p>-->
+
+
+<!--<p>-->
+<!--  Form Value: {{ networkElementSearchForm.value | json }}-->
+<!--</p>-->

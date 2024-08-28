@@ -1,0 +1,14 @@
+<table class="table compact">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let loadDriver of sorted(loadDrivers)">
+    <td>{{loadDriver.name}}</td>
+    <td>{{loadDriver.description}}</td>
+  </tr>
+  </tbody>
+</table>

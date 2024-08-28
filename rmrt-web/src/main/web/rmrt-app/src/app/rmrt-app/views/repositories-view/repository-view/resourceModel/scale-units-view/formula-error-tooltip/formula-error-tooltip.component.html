@@ -1,0 +1,13 @@
+<div *ngIf="unit[name + '_error']">
+        <span class="tooltip">
+          <span class="pill severity-critical">Error</span>
+          <span class="message top">{{ unit[name + '_error']}}</span>
+        </span>
+</div>
+
+<div *ngIf="unit[name]">
+        <span class="tooltip">
+          <span class="pill severity-warning">Formula</span>
+          <span class="message top">{{ unit[name]}}</span>
+        </span>
+</div>

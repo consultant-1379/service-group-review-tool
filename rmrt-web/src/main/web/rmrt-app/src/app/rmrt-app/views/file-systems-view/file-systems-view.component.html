@@ -1,0 +1,61 @@
+<app-deployment-size-selector></app-deployment-size-selector>
+
+<div  *ngFor="let fileSys of fileSystems" class="tile sm-12" id="t-basic-fs">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="left">
+      <div class="title">
+
+        <table>
+          <tr>
+            <td>Physical</td>
+            <td>{{fileSys.physicalMapping}}</td>
+          </tr>
+          <tr>
+            <td>Cloud</td>
+            <td>{{fileSys.cloudMapping}}</td>
+          </tr>
+          <tr>
+            <td>Custom</td>
+            <td>{{fileSys.customMappings}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="subtitle"></div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="box">
+
+      <table class="table">
+        <tr *ngFor="let deploymentType of deploymentTypes" class="{{deploymentType.sizeKey}}">
+          <td>{{deploymentType.displayName}}</td>
+          <td>
+            <div class="row">
+              <div class="kpi column sm-3" *ngFor="let ref of deploymentType.referenceDeploymentNames">
+                <div class="color-gray">{{ref}}</div>
+                <div class="item">
+                  <span class="text-xl">{{getTotal(fileSys, ref)}}</span>
+                  <span class="item text-lg">/ {{getCapacity(fileSys, ref)}}</span>
+                  <span class="text-lg color-gray">MB</span>
+                </div>
+                <div class="progress-bar thin {{getPercent(fileSys, ref) > 100 ? 'red' : 'blue'}}" style="width: 130px;">
+                  <progress value="{{getPercent(fileSys, ref)}}" min="0" max="100"></progress>
+                  <span>{{getPercent(fileSys, ref)}}%</span>
+                </div>
+                <div *ngIf="getPercent(fileSys, ref) > 100">
+                  <i class="icon icon-triangle"></i>
+                  <span class="text-sm">Capacity exceeded!</span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div>

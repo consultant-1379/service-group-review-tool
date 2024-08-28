@@ -1,0 +1,148 @@
+<!--suppress ALL -->
+<div class="expanded-row-contents">
+
+  <p class="row-header">Key Dimensioning Values</p>
+
+  <ng-container *ngFor="let keyDim of keyDimensioningValues; let i = index">
+
+    <!--    row consisting of 2 columns -->
+    <div class="row results-row" *ngIf="i % 2 == 0">
+
+      <!--  **********************    column 1-->
+      <div class="col1">
+
+        <div class="key-dim-name">
+          <p> {{ keyDim["name"] }}</p>
+        </div>
+
+
+        <div class="kpi kpi-container">
+          <!--          <div class="color-gray">Disk usage</div>-->
+          <div class="item">
+            <span>{{ keyDim["value"] | number: '1.0-0' | noComma }}</span>
+            <span>{{ '/' + keyDim["limit"] + ' ' }}</span>
+            <span class="color-gray">Units</span>
+          </div>
+          <div class="progress-bar thin" [ngClass]="comparePercentages(keyDim['percentage']) ? 'blue' : 'red'">
+            <progress [value]="keyDim['value'] " min="0" [max]="keyDim['limit']"></progress>
+            <span> {{ keyDim['percentage'] | noComma }}% </span>
+          </div>
+        </div>
+
+      </div>
+      <!--**********************-->
+
+
+
+      <!--     ********************** column 2-->
+      <div class="col2" *ngIf="i + 1 < keyDimensioningValues.length">
+
+        <p class="key-dim-name"> {{ keyDimensioningValues[i + 1]["name"] }}</p>
+
+        <div class="kpi kpi-container">
+          <!--          <div class="color-gray">Disk usage</div>-->
+          <div class="item">
+            <span>{{ keyDimensioningValues[i + 1]["value"] | number: '1.0-0' | noComma }}</span>
+            <span>{{ '/' + keyDimensioningValues[i + 1]["limit"] + ' ' }}</span>
+            <span class="color-gray">Units</span>
+          </div>
+          <div class="progress-bar thin" [ngClass]="comparePercentages(keyDimensioningValues[i + 1]['percentage']) ? 'blue' : 'red'">
+            <progress [value]="keyDimensioningValues[i + 1]['value']" min="0" [max]="keyDimensioningValues[i + 1]['limit']"></progress>
+            <span>{{ keyDimensioningValues[i + 1]['percentage'] | noComma }}%</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!--      ******************-->
+
+    <hr *ngIf="i % 2 == 0" class="dashed-hr">
+  </ng-container>
+
+
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <p class="row-header">Mediation Components</p>
+
+  <ng-container *ngFor="let mediationComponent of mediationComponents; let i = index">
+
+    <!--    row consisting of 3 columns -->
+    <div class="row" *ngIf="i % 3 == 0">
+
+      <!--      column 1 ******************-->
+      <div class="column sm-4">
+
+        <p class="key-dim-name"> {{ mediationComponent["name"] }}</p>
+
+        <div class="kpi kpi-container">
+          <!--          <div class="color-gray">Disk usage</div>-->
+          <div class="item">
+            <span>{{ mediationComponent["value"] | number: '1.0-0' | noComma }}</span>
+            <span>{{ '/' + mediationComponent["limit"] + ' ' }}</span>
+            <span class="color-gray">Units</span>
+          </div>
+          <div class="progress-bar thin {{ comparePercentages(mediationComponent['percentage']) ? 'blue' : 'red' }}">
+            <progress [value]="mediationComponent['value']" min="0" [max]="mediationComponent['limit']"></progress>
+            <span>{{ mediationComponent['percentage'] | noComma }}%</span>
+          </div>
+        </div>
+
+      </div>
+      <!-- ********************************-->
+
+
+      <!--      column 2-->
+      <div class="column sm-4" *ngIf="i + 1 < mediationComponents.length">
+
+        <p class="key-dim-name"> {{ mediationComponents[i + 1]["name"] }}</p>
+
+        <div class="kpi kpi-container">
+          <!--          <div class="color-gray">Disk usage</div>-->
+          <div class="item">
+            <span>{{ mediationComponents[i + 1]["value"] | number: '1.0-0' | noComma }}</span>
+            <span>{{ '/' + mediationComponents[i + 1]["limit"] + ' ' }}</span>
+            <span class="color-gray">Units</span>
+          </div>
+          <div class="progress-bar thin {{ comparePercentages(mediationComponents[i + 1]['percentage']) ? 'blue' : 'red' }}">
+            <progress [value]="mediationComponents[i + 1]['value']" min="0" [max]="mediationComponents[i + 1]['limit']"></progress>
+            <span>{{ mediationComponents[i + 1]['percentage'] | noComma }}%</span>
+          </div>
+        </div>
+
+      </div>
+      <!-- **************************-->
+
+
+
+      <!--      column 3-->
+      <div class="column sm-4" *ngIf="i + 2 < mediationComponents.length">
+
+        <p class="key-dim-name"> {{ mediationComponents[i + 2]["name"] }}</p>
+
+        <div class="kpi kpi-container">
+          <!--          <div class="color-gray">Disk usage</div>-->
+          <div class="item">
+            <span>{{ mediationComponents[i + 2]["value"] | number: '1.0-0' | noComma }}</span>
+            <span>{{ '/' + mediationComponents[i + 2]["limit"] + ' ' }}</span>
+            <span class="color-gray">Units</span>
+          </div>
+          <div class="progress-bar thin" [ngClass]="comparePercentages(mediationComponents[i + 2]['percentage']) ? 'blue' : 'red'">
+            <progress [value]="mediationComponents[i + 2]['value']" min="0" [max]="mediationComponents[i + 2]['limit']"></progress>
+            <span>{{ mediationComponents[i + 2]['percentage'] | noComma }}%</span>
+          </div>
+        </div>
+
+      </div>
+      <!-- **************************-->
+
+    </div>
+
+    <hr *ngIf="i % 3 == 0" class="dashed-hr">
+  </ng-container>
+
+</div>

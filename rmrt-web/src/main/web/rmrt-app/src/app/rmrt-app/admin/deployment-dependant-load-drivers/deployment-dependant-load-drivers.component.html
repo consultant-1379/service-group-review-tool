@@ -1,0 +1,69 @@
+<div *ngIf="!deploymentLoadDrivers" class="loading" style="margin: 15% auto"></div>
+
+<form *ngIf="deploymentLoadDrivers" (ngSubmit)="submit()" class="eds-form">
+
+  <div class="form-header">
+    <div class="title">Deployment Dependant Load Drivers</div>
+    <p>To edit, select from the dropdown.</p>
+    <select name="selectedReferenceDeployment" class="btn"
+            [(ngModel)]="selectedDeploymentLoadDriver">
+      <option [ngValue]="newDeploymentLoadDriver">{{ newDeploymentLoadDriver.name }}</option>
+      <option *ngFor="let dep of deploymentLoadDrivers"
+              [ngValue]="dep">{{ dep.name }}</option>
+    </select>
+  </div>
+
+  <div class="row form-body">
+    <div class="column sm-12">
+
+      <div class="form-group">
+        <div class="form-group-title">
+          {{ selectedDeploymentLoadDriver.name }}
+        </div>
+
+        <div class="form-element">
+          <label for="name">
+            Name
+          </label>
+          <input [(ngModel)]="selectedDeploymentLoadDriver.name" type="text"
+                 id="name" name="name" placeholder="Placeholder"
+                 [disabled]="(selectedDeploymentLoadDriver != newDeploymentLoadDriver)" required>
+        </div>
+        <div class="form-element">
+          <label for="description">
+            Description
+          </label>
+          <input [(ngModel)]="selectedDeploymentLoadDriver.description"
+                 type="text" id="description" name="description" placeholder="Placeholder" required>
+        </div>
+
+        <div class="form-group" *ngFor="let deploymentType of deploymentTypes">
+          <div class="form-group-title">
+            {{ deploymentType.displayName }}
+          </div>
+          <div class="form-element">
+            <div class="row">
+              <div class="column sm-6 md-4" *ngFor="let refName of deploymentType.referenceDeploymentNames">
+                <label for="{{refName}}">
+                  {{ refName }}
+                </label>
+                <input [(ngModel)]="selectedDeploymentLoadDriver?.values[refName]"
+                       type="number" step="any"
+                       id="{{refName}}" name="{{refName}}" placeholder="Placeholder" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button type="reset" class="btn">Clear</button>
+    <button type="submit" class="btn primary">Submit</button>
+    <button *ngIf="selectedDeploymentLoadDriver != newDeploymentLoadDriver" (click)="delete()"
+            type="button" class="btn warning">Delete</button>
+  </div>
+
+</form>

@@ -1,0 +1,57 @@
+<div *ngIf="!genericLoadDrivers" class="loading" style="margin: 15% auto"></div>
+
+<form *ngIf="genericLoadDrivers" (ngSubmit)="submit()" [noValidate]="false" class="eds-form">
+
+  <div class="form-header">
+    <div class="title">Generic Load Driver</div>
+    <p>To edit, select from the dropdown.</p>
+    <select name="selected" class="btn" [(ngModel)]="selectedGenericLoadDriver">
+      <option [ngValue]="newGenericLoadDriver">{{ newGenericLoadDriver.name }}</option>
+      <option *ngFor="let genericLoadDriver of genericLoadDrivers"
+              [ngValue]="genericLoadDriver">{{ genericLoadDriver.name }}</option>
+    </select>
+  </div>
+
+  <div class="row form-body">
+    <div class="column sm-12">
+
+      <div class="form-group">
+        <div class="form-group-title">
+          {{ selectedGenericLoadDriver.name }}
+        </div>
+
+        <div class="form-element">
+          <label for="name">
+            Name
+          </label>
+          <input [(ngModel)]="selectedGenericLoadDriver.name"
+                 [disabled]="(selectedGenericLoadDriver != newGenericLoadDriver)"
+                 type="text" id="name" name="name" placeholder="Placeholder" required>
+        </div>
+        <div class="form-element">
+          <label for="description">
+            Description
+          </label>
+          <input [(ngModel)]="selectedGenericLoadDriver.description"
+                 type="text" id="description" name="description"
+                 placeholder="Placeholder" required>
+        </div>
+        <div class="form-element">
+          <label for="value">
+            Value
+          </label>
+          <input [(ngModel)]="selectedGenericLoadDriver.value"
+                 type="number" step="any" id="value" name="value" placeholder="Placeholder" required>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button type="reset" class="btn">Clear</button>
+    <button type="submit" class="btn primary">Submit</button>
+    <button *ngIf="selectedGenericLoadDriver != newGenericLoadDriver" (click)="delete()"
+            type="button"  class="btn warning">Delete</button>
+  </div>
+
+</form>

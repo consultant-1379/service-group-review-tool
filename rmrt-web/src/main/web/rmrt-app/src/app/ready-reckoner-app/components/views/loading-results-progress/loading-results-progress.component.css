@@ -1,0 +1,22 @@
+.loading-message {
+  font-family: Ericsson Hilda;
+}
+
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+}
+
+
+.results-progress {
+  width: 45%;
+}
+
+.results-progress > progress {
+  width: 100%;
+}
+

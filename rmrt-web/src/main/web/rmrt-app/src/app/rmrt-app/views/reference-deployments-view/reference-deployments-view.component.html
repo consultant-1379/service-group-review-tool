@@ -1,0 +1,37 @@
+<app-deployment-size-selector></app-deployment-size-selector>
+
+<div id="table">
+  <table class="table compact">
+    <thead>
+    <tr>
+      <th>Deployment Type</th>
+      <ng-container *ngFor="let deploymentType of deploymentTypes">
+        <th class="{{deploymentType.sizeKey}}" [attr.colspan]="deploymentType.referenceDeploymentNames.length">{{deploymentType.displayName}}</th>
+      </ng-container>
+    </tr>
+    <tr>
+      <th>enm_deployment_type</th>
+      <ng-container *ngFor="let deploymentType of deploymentTypes">
+        <th *ngFor="let ref of deploymentType.referenceDeploymentNames" class="{{ deploymentType.sizeKey }}">"{{ deploymentType.sizeKey }}"</th>
+      </ng-container>
+    </tr>
+    <tr>
+      <th>Reference Deployment</th>
+      <ng-container *ngFor="let deploymentType of deploymentTypes">
+        <th *ngFor="let ref of deploymentType.referenceDeploymentNames" class="{{ deploymentType.sizeKey }}">{{ ref }}</th>
+      </ng-container>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let dep of deploymentLoadDrivers">
+      <th>{{ dep.name }}</th>
+      <ng-container *ngFor="let deploymentType of deploymentTypes">
+        <td class="{{ deploymentType.sizeKey }}" *ngFor="let refName of deploymentType.referenceDeploymentNames">{{ dep.values[refName]}}</td>
+      </ng-container>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+

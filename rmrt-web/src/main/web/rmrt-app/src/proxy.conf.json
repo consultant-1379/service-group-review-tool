@@ -1,0 +1,13 @@
+{
+  "/api/*": {
+    "target": "https://resourcemodelreview.seli.wh.rnd.internal.ericsson.com/",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/view/login": {
+    "target": "https://resourcemodelreview.seli.wh.rnd.internal.ericsson.com/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}
+

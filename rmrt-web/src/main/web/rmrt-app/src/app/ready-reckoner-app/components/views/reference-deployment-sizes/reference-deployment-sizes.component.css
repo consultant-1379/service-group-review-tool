@@ -1,0 +1,72 @@
+#sizes-content {
+  margin-left: 16px;
+}
+
+.info-msg {
+  font-family: Ericsson Hilda;
+  font-size: 16px;
+  color: #242424;
+  text-decoration: rgb(36, 36, 36);
+  margin-bottom: 14px;
+  margin-top: 60px;
+}
+
+
+
+
+.accordion-header-container {
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: space-between;*/
+  display: block;
+  height: 30px;
+}
+
+
+
+
+
+.title {
+  width: 100% !important;
+}
+
+
+
+
+.accordion .title{
+  padding:  12px;
+}
+
+
+
+.accordion-container {
+  width: 99%;
+}
+
+
+.number-elements {
+  display: block;
+  float: right;
+  margin-right: 100px;
+}
+
+
+
+.no-elements-heading, .number-elements {
+  text-align: center;
+  vertical-align: top;
+}
+
+
+.accordion-header, .no-elements-heading {
+  display: block;
+  margin-right: 140px;
+}
+
+.accordion-header {
+  float: left;
+}
+
+.no-elements-heading  {
+  float: right;
+}

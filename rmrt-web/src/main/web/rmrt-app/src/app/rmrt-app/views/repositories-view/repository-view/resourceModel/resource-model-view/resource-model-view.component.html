@@ -1,0 +1,100 @@
+<div *ngIf="resourceModel.errorMessages.length > 0" class="row">
+  <div class="tile">
+    <div class="header">
+      <div class="left">
+        <div class="title">Errors</div>
+        <div class="subtitle"></div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="box" style="min-height: unset; padding: 8px">
+        <table class="table compact">
+          <thead>
+          <tr>
+            <th>Error Message</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let error of resourceModel.errorMessages">
+            <td>{{ error }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scale Units -->
+<div class="row">
+  <!-- Tile Resources Min & Opt -->
+  <div class="tile sm-12 xl-12">
+    <div class="header">
+      <div class="left">
+        <div class="title">{{title}}</div>
+        <div class="subtitle">
+          Last updated: {{dateFormat(lastUpdated)}}</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="box">
+        <app-scale-units-view [deploymentTypes]="deploymentTypes" [scaleUnit]="resourceModel.scaleUnit" [scaleUnit_compare]="compareModel.scaleUnit"></app-scale-units-view>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Properties & Load Drivers -->
+<div class="row">
+  <!--  Parameters-->
+  <div class="row">
+    <div class="tile sm-12 lg-6">
+      <div class="header">
+        <div class="left">
+          <div class="title">Parameters</div>
+          <div class="subtitle"><code vocab="html5">&lt;parameters/&gt;</code></div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="box">
+          <app-parameters-view [parameters]="resourceModel.properties"></app-parameters-view>
+        </div>
+      </div>
+    </div>
+    <!-- Load Drivers-->
+    <div class="tile sm-12 lg-6">
+      <div class="header">
+        <div class="left">
+          <div class="title">Load Drivers</div>
+          <div class="subtitle"><code vocab="html5">&lt;loadDriver/&gt;</code></div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="box">
+          <app-load-drivers-view [loadDrivers]="resourceModel.loadDrivers"></app-load-drivers-view>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Deployment Dependencies-->
+<div class="row">
+  <div class="tile sm-12">
+    <div class="header">
+      <div class="left">
+        <div class="title">Deployment Dependencies</div>
+        <div class="subtitle"><code vocab="html5">&lt;deploymentDependencies/&gt;</code></div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="box">
+        <app-deployment-dependencies-view
+          [deploymentDependencies]="resourceModel.deploymentDependencies"
+          [deploymentDependencies_compare]="compareModel.deploymentDependencies"
+          [deploymentTypes]="deploymentTypes" [showZeroDeltas]="showZeroDeltas">
+        </app-deployment-dependencies-view>
+      </div>
+    </div>
+  </div>
+</div>

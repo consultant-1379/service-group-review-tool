@@ -1,0 +1,21 @@
+th:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #c8c8c8;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: #c8c8c8;
+  z-index: 1;
+}
+
+thead tr th:first-child {
+  z-index: 2;
+}
+
+#table {
+  overflow: scroll;
+  height: 80vh;
+}

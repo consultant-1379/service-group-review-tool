@@ -1,0 +1,52 @@
+.catalog-container {
+  margin-left: 20px;
+}
+
+
+.catalog-header {
+  height: 19px;
+  font-family: Ericsson Hilda;
+  font-size: 16px;
+  color: #242424;
+  text-decoration: rgb(36, 36, 36);
+}
+
+
+.release-no {
+  height: 17px;
+  font-family: Ericsson Hilda;
+  font-size: 14px;
+  color: #6a6a6a;
+  text-decoration: rgb(106, 106, 106);
+  margin-left: 10px;
+}
+
+.catalog-header , .release-no {
+  display: inline-block;
+}
+
+#domain-select {
+  position: relative;
+  display: block;
+  float: right;
+  right: 33px;
+  width: 145px;
+}
+
+.catalog-container > table tr:last-child td {
+  border-bottom: none !important;
+}
+
+
+.loading-message {
+  font-family: Ericsson Hilda;
+}
+
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+}

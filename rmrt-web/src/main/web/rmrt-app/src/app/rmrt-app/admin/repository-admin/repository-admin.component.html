@@ -1,0 +1,80 @@
+<div *ngIf="!repositories" class="loading" style="margin: 15% auto"></div>
+
+<form *ngIf="repositories" (ngSubmit)="submit()" [noValidate]="false" class="eds-form">
+
+  <div class="form-header">
+    <div class="title">Repository</div>
+    <p>To edit, select from the dropdown.</p>
+    <select name="selected" class="btn" [(ngModel)]="selectedRepository">
+      <option [ngValue]="newRepository">{{ newRepository.name }}</option>
+      <option *ngFor="let repo of repositories"
+              [ngValue]="repo">{{ repo.name }}</option>
+    </select>
+  </div>
+
+  <div class="row form-body">
+    <div class="column sm-12 md-12">
+
+      <div class="form-group">
+        <div class="form-group-title">
+          {{ selectedRepository ? selectedRepository.name : 'New Repository' }}
+        </div>
+
+        <div class="form-element">
+          <label for="name">
+            Name
+          </label>
+          <input [(ngModel)]="selectedRepository.name" type="text" id="name"
+                 name="name" placeholder="Placeholder" required>
+        </div>
+        <div class="form-element">
+          <label for="project">
+            Project
+          </label>
+          <input [(ngModel)]="selectedRepository.project"
+                 [disabled]="(selectedRepository != newRepository)"
+                 type="text" id="project" name="project" placeholder="Placeholder" required>
+        </div>
+        <div class="form-element">
+          <label for="filePath">
+            File Path
+          </label>
+          <input [(ngModel)]="selectedRepository.filePath" type="text" id="filePath"
+                 name="filePath" placeholder="Placeholder" required>
+        </div>
+        <div class="form-element">
+          <input [(ngModel)]="selectedRepository.mediationComponent"
+                 [ngModelOptions]="{standalone: true}"
+                 type="checkbox" id="mediationComponent"
+                 name="mediationComponent" placeholder="Placeholder"
+                 [checked]="selectedRepository.mediationComponent">
+          <label for="mediationComponent">
+            Is this a mediation component?
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="selectedRepository.mediationComponent" class="form-group">
+        <div class="form-group-title">
+          Maximum Number of Instances per Deployment Size
+        </div>
+
+        <div *ngFor="let deploymentType of deploymentTypes" class="form-element">
+          <label for="{{deploymentType.sizeKey}}">
+            {{ deploymentType.displayName }}
+          </label>
+          <input [(ngModel)]="selectedRepository.instanceLimits[deploymentType.sizeKey]" type="number" id="{{deploymentType.sizeKey}}"
+                 name="{{deploymentType.sizeKey}}" placeholder="#" required>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button type="reset" class="btn">Clear</button>
+    <button type="submit" class="btn primary">Submit</button>
+    <button *ngIf="selectedRepository != newRepository" (click)="delete()"
+            type="button" class="btn warning">Delete</button>
+  </div>
+
+</form>
